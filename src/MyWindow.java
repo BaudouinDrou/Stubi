@@ -7,7 +7,10 @@ import javax.swing.Timer;
 
 
 public class MyWindow implements ActionListener {
-	private int moveState;	
+	private int moveState = 0;	
+	private int[] movePattern = {1,2,1,2};
+	private int moveIndex = 0;
+	
 	private Timer trigger;
 	private int dimX = 900;
 	private int dimY = 350;
@@ -36,8 +39,13 @@ public class MyWindow implements ActionListener {
 	}
 	
 	public void changeState(int n) {
-		this.moveState += n;
-		this.moveState %= 3;
+		this.moveIndex += n;
+		this.moveIndex %= movePattern.length;
+		this.moveState = movePattern[moveIndex];
+	}
+	
+	public void changeState() {
+		changeState(1);
 	}
 
 	@Override
