@@ -12,12 +12,13 @@ import javax.swing.JPanel;
 public class MyImage extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private Image bg;	// Background pic
-	private Image perso;	
+	private Image perso;
+	private String path = "../img/";	// On eclipse : "img/" On Windows : "../img/"
 
 	MyImage(int state,Dimension size) {
 		try {
-			this.bg = ImageIO.read(new File("img/bg.png"));
-			this.perso = ImageIO.read(new File("img/perso"+ state +".png"));
+			this.bg = ImageIO.read(new File(path + "bg.png"));
+			this.perso = ImageIO.read(new File(path + "perso"+ state +".png"));
 		}
 		catch(IOException exc) {
 			exc.printStackTrace();
@@ -28,7 +29,7 @@ public class MyImage extends JPanel {
 	
 	public void reloadPerso(int state){
 		try {
-			this.perso = ImageIO.read(new File("img/perso"+ state +".png"));
+			this.perso = ImageIO.read(new File(path + "perso"+ state +".png"));
 		}
 		catch(IOException exc) {
 			exc.printStackTrace();

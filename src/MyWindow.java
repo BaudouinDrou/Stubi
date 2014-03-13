@@ -11,6 +11,8 @@ public class MyWindow implements ActionListener {
 	private Timer trigger;
 	private int dimX = 900;
 	private int dimY = 350;
+	
+	private int reloadTime = 250;
 	private int rdzX1 = 150;	// Adapt with character size ...
 	private int rdzY1 = 0;
 	private int rdzX2 = 650;
@@ -19,7 +21,7 @@ public class MyWindow implements ActionListener {
 	
 	public MyWindow(){
 		moveState = 0;
-		trigger = new Timer(500, this);
+		trigger = new Timer(reloadTime, this);
 		trigger.start();
 		Dimension size = new Dimension(dimX, dimY);
 		img = new MyImage(moveState,size);

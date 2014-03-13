@@ -1,5 +1,7 @@
 #! /bin/sh
+
 cd src
-del *.class
+rm *.class
 javac *.java
+
 java Stubi
