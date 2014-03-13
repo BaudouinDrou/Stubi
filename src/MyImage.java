@@ -13,7 +13,7 @@ public class MyImage extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private Image bg;	// Background pic
 	private Image perso;
-	private String path = "../img/";	// On eclipse : "img/" On Windows : "../img/"
+	private String path = "img/";	// On eclipse : "img/" On Windows : "../img/"
 
 	MyImage(int state,Dimension size) {
 		try {

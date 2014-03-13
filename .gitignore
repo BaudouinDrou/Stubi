@@ -5,3 +5,7 @@
 *.war
 *.ear
 /bin
+
+# Executable test Authorization #
+
+!Stubi.jar
