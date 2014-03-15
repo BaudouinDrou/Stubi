@@ -19,6 +19,8 @@ public class Character {
 		
 		ArrayList<BufferedImage> sprites = new ArrayList<BufferedImage>();
 		
+		
+		// Frame sequence :
 		sprites.add(ss.getSprite(0));
 		sprites.add(ss.getSprite(1));
 		
@@ -38,7 +40,9 @@ public class Character {
 	public void update(long time){
 		display.update(time);
 		x += 2;
+		x %= Stubi.WINDX;
 		y += 1;
+		y %= Stubi.WINDY;
 	}
 	
 	public void play(){
