@@ -18,7 +18,7 @@ public class MyImage extends JPanel {
 	MyImage(int state,Dimension size) {
 		try {
 			this.bg = ImageIO.read(new File(path + "bg.png"));
-			this.perso = ImageIO.read(new File(path + "perso"+ state +".png"));
+			this.perso = ImageIO.read(new File(path + "perso-step-"+ state +".png"));
 		}
 		catch(IOException exc) {
 			exc.printStackTrace();
@@ -29,7 +29,7 @@ public class MyImage extends JPanel {
 	
 	public void reloadPerso(int state){
 		try {
-			this.perso = ImageIO.read(new File(path + "perso"+ state +".png"));
+			this.perso = ImageIO.read(new File(path + "perso-step-"+ state +".png"));
 		}
 		catch(IOException exc) {
 			exc.printStackTrace();

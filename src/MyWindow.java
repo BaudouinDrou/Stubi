@@ -8,14 +8,14 @@ import javax.swing.Timer;
 
 public class MyWindow implements ActionListener {
 	private int moveState = 0;	
-	private int[] movePattern = {1,2,1,2};
+	private int[] movePattern = {1,2,3,4,5,4,3,2};
 	private int moveIndex = 0;
 	
 	private Timer trigger;
 	private int dimX = 900;
 	private int dimY = 350;
 	
-	private int reloadTime = 250;
+	private int reloadTime = 350;
 	private int rdzX1 = 150;	// Adapt with character size ...
 	private int rdzY1 = 0;
 	private int rdzX2 = 650;
