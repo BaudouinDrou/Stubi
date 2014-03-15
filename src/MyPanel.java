@@ -26,6 +26,7 @@ public class MyPanel extends JPanel{
     }
     
     public void paintComponent(Graphics g){
+    	g.drawImage(map.img, 0, 0, this);
         if(stubi  != null){
            stubi.update(System.currentTimeMillis());
             g.drawImage(stubi.getSprite(),stubi.x,stubi.y, null);
