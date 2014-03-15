@@ -13,8 +13,16 @@ public class MyPanel extends JPanel{
 
 	public void init() {
 		int[] seq = {1,2,3,4,5,4,3,2};
-		stubi = new Character("img/perso-sprite.png",87,100,seq);
+		stubi = new Character("img/perso-sprite.png",90,100,seq);
 		map = new Background("img/bg.png");
+	}
+	
+	public Background getMap(){
+		return map;
+	}
+	
+	public Character getStubi(){
+		return stubi;
 	}
 	
 	@Override
@@ -23,25 +31,17 @@ public class MyPanel extends JPanel{
         dbg = dbImage.getGraphics();
         paintComponent(dbg);
         g.drawImage(dbImage, 0, 0, null);
-//		Image img = null;
-//		try {
-//			img = ImageIO.read(new File("img/bg.png"));
-//		} catch (IOException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//        g.drawImage(img, 0, 0, null);
     }
     
     public void paintComponent(Graphics g){
 	    // Map
     	if (map!=null)
-    		g.drawImage(map.getImg(), 0, 0, null);
+    		g.drawImage(getMap().getImg(), 0, 0, null);
 	    
 	    // Character
 	    if(stubi  != null){
 	       stubi.update(System.currentTimeMillis());
-	        g.drawImage(stubi.getSprite(),stubi.x,stubi.y, null);
+	        g.drawImage(getStubi().getSprite(),stubi.x,stubi.y, null);
 	    }		    
 	    repaint();
     }

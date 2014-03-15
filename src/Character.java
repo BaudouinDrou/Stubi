@@ -37,7 +37,7 @@ public class Character {
 		}
 		
 		display = new Animator(sprites);
-		display.setSpeed(200);
+		display.setSpeed(50);
         display.play();
 	}
 	
