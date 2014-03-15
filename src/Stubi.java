@@ -1,11 +1,12 @@
-import java.awt.Graphics;
-import java.awt.Image;
-
 import javax.swing.JFrame;
 
 
 public class Stubi extends JFrame {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private MyPanel pan;
 	public static int WINDX = 800;
 	public static int WINDY = 600;
@@ -28,13 +29,17 @@ public class Stubi extends JFrame {
         try {
 			Thread.sleep(4500);
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
         pan.getStubi().stop();
 	}
+	
+	public String toString(){
+		return "Successful test !";
+	}
     
     public static void main(String [] arg) {
 		Stubi test = new Stubi();
+		System.out.println(test);
 	}
 }
