@@ -38,7 +38,6 @@ public class Character {
 		
 		display = new Animator(sprites);
 		display.setSpeed(50);
-        display.play();
 	}
 	
 	public BufferedImage getSprite(){
@@ -59,5 +58,17 @@ public class Character {
 	
 	public void play(){
 		display.play();
+	}
+	
+	public void stop(){
+		display.stop();
+	}
+	
+	public void resume(){
+		display.resume();
+	}
+	
+	public void pause(){
+		display.pause();
 	}
 }
