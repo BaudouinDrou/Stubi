@@ -18,11 +18,14 @@ public class Stubi extends JFrame {
         setVisible(true);
         setResizable(false);
         setAlwaysOnTop(true);
+        setFocusable(false);	// To enable Keylistener on panel
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
         
         pan = new MyPanel();
-//        pan.addKeyListener(new MyKeyListener());
+        pan.setFocusable(true);
+        pan.requestFocus();
+        pan.addKeyListener(new MyKeyListener());
         setContentPane(pan);
         pan.init();
         
