@@ -8,7 +8,6 @@ public class Character {
 	public int x = 50, y = 360;	// Position
 	private int moveFactor = 0;	// Number of pixel to change his position
 	private int speed = 3;
-	private boolean crawl = false;	// crawling or not
 	private int width, height;
 
 	public Character(){
@@ -65,10 +64,14 @@ public class Character {
 	public void update(long time){
 		display.update(time);
 		x += moveFactor;
-		if (x + width>Stubi.WINDX)
+		// Right and left side limit for the character :
+		if (x+width>Stubi.WINDX)
 			x = Stubi.WINDX-width;
 		if (x<0)
 			x = 0;
+		// Ground limit :
+		if (y+height>Stubi.WINDY)
+			y = Stubi.WINDY-height;
 	}
 	
 	public void play(){
@@ -108,7 +111,6 @@ public class Character {
 	}
 	
 	public void setCrawling(boolean b){
-		crawl = b;
 		if (b)
 			speed /= 2;
 		else
