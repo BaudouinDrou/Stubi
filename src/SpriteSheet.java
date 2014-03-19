@@ -32,4 +32,8 @@ public class SpriteSheet {
 		int x = n*sWidth;	// Supposing the Sprites are in line
 		return this.spriteSheet.getSubimage(x, 0, sWidth, sHeight);
 	}
+	
+	public BufferedImage getSprite(int x, int y){
+		return this.spriteSheet.getSubimage(x, y, sWidth, sHeight);
+	}
 }

@@ -9,8 +9,8 @@ public class MyPanel extends JPanel{
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private Character stubi;
-	private Background map;
+	private volatile Character stubi;
+	private volatile Background map;
 	
 	Image dbImage;
     Graphics dbg;
@@ -18,7 +18,7 @@ public class MyPanel extends JPanel{
 	public void init() {
 		int[] seq = {1,2,3,4,5,4,3,2};
 		stubi = new Character("img/perso-sprite.png",90,100,seq);
-		map = new Background("img/bg.png");
+		map = new Background("img/LEVEL-1.png");
 	}
 	
 	public Background getMap(){
@@ -33,18 +33,20 @@ public class MyPanel extends JPanel{
     public void paint(Graphics g){
         dbImage = createImage(getWidth(), getHeight());
         dbg = dbImage.getGraphics();
-        paintComponent(dbg);
+        paintComponent(dbg);	// Calling the method below
         g.drawImage(dbImage, 0, 0, null);
     }
     
     public void paintComponent(Graphics g){
 	    // Map
-    	if (map!=null)
+    	if (map!=null){
+    		map.update(1);
     		g.drawImage(getMap().getImg(), 0, 0, null);
+    	}
 	    
 	    // Character
 	    if(stubi  != null){
-	       stubi.update(System.currentTimeMillis());
+	    	stubi.update(System.currentTimeMillis());
 	        g.drawImage(getStubi().getSprite(),stubi.x,stubi.y, null);
 	    }		    
 	    repaint();

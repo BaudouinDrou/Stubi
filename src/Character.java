@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 public class Character {
 	private Animator display;
-	public int x = 50, y = 50;	// Position
+	public int x = 50, y = 350;	// Position
 
 	public Character(){
 		this("img/perso-sprite.png");
@@ -20,6 +20,10 @@ public class Character {
 	}
 	
 	public Character(String path, int sWidth, int sHeight, int[]sequence){
+		this(path, sWidth, sHeight,sequence,50);
+	}
+	
+	public Character(String path, int sWidth, int sHeight, int[]sequence, int speed){
 		ImageLoader loader = new ImageLoader();
 		BufferedImage spriteSheet = null;
 		try {
@@ -32,12 +36,16 @@ public class Character {
 		ArrayList<BufferedImage> sprites = new ArrayList<BufferedImage>();
 
 		// Frame sequence :
-		for (int i = 0; i<sequence.length;++i){
-			sprites.add(ss.getSprite(sequence[i]));			
+		if (sequence!=null){
+			for (int i = 0; i<sequence.length;++i){
+				sprites.add(ss.getSprite(sequence[i]));			
+			}
+		} else {
+			sprites.add(ss.getSprite(0));
 		}
 		
 		display = new Animator(sprites);
-		display.setSpeed(50);
+		display.setSpeed(speed);
 	}
 	
 	public BufferedImage getSprite(){
@@ -50,10 +58,8 @@ public class Character {
 	
 	public void update(long time){
 		display.update(time);
-		x += 2;
+		x += 3;
 		x %= Stubi.WINDX;
-		y += 1;
-		y %= Stubi.WINDY;
 	}
 	
 	public void play(){
@@ -70,5 +76,9 @@ public class Character {
 	
 	public void pause(){
 		display.pause();
+	}
+	
+	public void move() {
+		// TO DO
 	}
 }

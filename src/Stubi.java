@@ -12,6 +12,7 @@ public class Stubi extends JFrame {
 	public static int WINDY = 600;
 	
 	public Stubi(){
+		// Window parameter
 		setTitle("Stubi");
 		setSize(WINDX, WINDY);
         setVisible(true);
@@ -21,17 +22,18 @@ public class Stubi extends JFrame {
         setLocationRelativeTo(null);
         
         pan = new MyPanel();
+//        pan.addKeyListener(new MyKeyListener());
         setContentPane(pan);
         pan.init();
         
-
+        // Make the character "Stubi" play his animation
         pan.getStubi().play();
-        try {
-			Thread.sleep(4500);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
-        pan.getStubi().stop();
+//        try {
+//			Thread.sleep(4500);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
+//        pan.getStubi().stop();
 	}
 	
 	public String toString(){
