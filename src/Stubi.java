@@ -25,7 +25,7 @@ public class Stubi extends JFrame {
         pan = new MyPanel();
         pan.setFocusable(true);
         pan.requestFocus();
-        pan.addKeyListener(new MyKeyListener());
+        pan.addKeyListener(new MyKeyListener(pan));
         setContentPane(pan);
         pan.init();
         

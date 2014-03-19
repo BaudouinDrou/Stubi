@@ -5,7 +5,11 @@ import java.util.ArrayList;
 
 public class Character {
 	private Animator display;
-	public int x = 50, y = 350;	// Position
+	public int x = 50, y = 360;	// Position
+	private int moveFactor = 0;	// Number of pixel to change his position
+	private int speed = 3;
+	private boolean crawl = false;	// crawling or not
+	private int width, height;
 
 	public Character(){
 		this("img/perso-sprite.png");
@@ -32,6 +36,8 @@ public class Character {
 			exc.printStackTrace();
 		}
 		SpriteSheet ss = new SpriteSheet(spriteSheet,sWidth,sHeight);
+		width = sWidth;
+		height = sHeight;
 		
 		ArrayList<BufferedImage> sprites = new ArrayList<BufferedImage>();
 
@@ -58,8 +64,11 @@ public class Character {
 	
 	public void update(long time){
 		display.update(time);
-		x += 3;
-		x %= Stubi.WINDX;
+		x += moveFactor;
+		if (x + width>Stubi.WINDX)
+			x = Stubi.WINDX-width;
+		if (x<0)
+			x = 0;
 	}
 	
 	public void play(){
@@ -78,7 +87,31 @@ public class Character {
 		display.pause();
 	}
 	
-	public void move() {
-		// TO DO
+	public void setMove(char c) {
+		switch (c){
+		case 'r':
+			moveFactor = speed;
+			play();
+			break;
+		case 'l':
+			moveFactor = -speed;
+			play();
+			break;
+		case 's':
+			moveFactor = 0;
+			stop();
+			break;
+		default:
+			moveFactor = 0;
+			stop();
+		}
+	}
+	
+	public void setCrawling(boolean b){
+		crawl = b;
+		if (b)
+			speed /= 2;
+		else
+			speed *= 2;
 	}
 }
