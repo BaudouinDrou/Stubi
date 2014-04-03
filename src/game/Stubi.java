@@ -3,7 +3,6 @@ import javax.swing.JFrame;
 
 
 public class Stubi extends JFrame {
-	
 	/**
 	 * 
 	 */

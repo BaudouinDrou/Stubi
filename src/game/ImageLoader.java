@@ -8,10 +8,7 @@ import javax.imageio.ImageIO;
 public class ImageLoader {
 	
 	public BufferedImage load(String path) throws IOException {
-//		File file = new File(path);
-//		BufferedImage img = ImageIO.read(file);
-		
-		BufferedImage img = ImageIO.read(getClass().getResource(path));
+		BufferedImage img = ImageIO.read(getClass().getClassLoader().getResource(path));
 		return img;
 	}
 	
