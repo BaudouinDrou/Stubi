@@ -15,7 +15,7 @@ public class Character {
 	private int timeFrame;
 	
 	private int jump = 0;
-	private int jumpSize = 5;
+	private int jumpSize = 6;
 
 	// Constructors
 	
@@ -160,7 +160,7 @@ public class Character {
 				++jump;				
 			} else if (jump == 30) {	// Stand
 				++jump;				
-			} else if (jump <45) {	// Start reaching the ground
+			} else if (jump <= 45) {	// Start reaching the ground
 				y += jumpSize/2;
 				++jump;
 			} else if (jump <60) {	// Start reaching the ground

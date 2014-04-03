@@ -15,41 +15,44 @@ public class MyKeyListener implements KeyListener{
 	
 	public void keyPressed(KeyEvent event) {
 		int code = event.getKeyCode();
-		if (code != currentKey) {
-			currentKey = code;
-			switch (code) {
-			case 37:
-				// Action start go left
+		boolean nonRepeat = (code != currentKey);
+		currentKey = code;
+		switch (code) {
+		case 37:
+			// Action start go left
+			if (nonRepeat)
 				pan.getStubi().setMove('l');
-				break;
-			case 38:
-			case 32:
-				pan.getStubi().setMove('j');
-				// Action start jump
-				break;
-			case 39:
-				// Action start go right
+			break;
+		case 38:
+		case 32:
+			pan.getStubi().setMove('j');
+			// Action start jump
+			break;
+		case 39:
+			// Action start go right
+			if (nonRepeat)
 				pan.getStubi().setMove('r');
-				break;
-			case 40:
+			break;
+		case 40:
+			if (nonRepeat)
 				pan.getStubi().setCrawling(true);
-				// Action start crawling
-				break;
-			case 27:
-				// Action when "esc" pressed
-				if (pause){
-					pause = false;
-					pan.resume();
-				} else {
-					pause = true;
-					pan.pause();
-				}
-				break;
-			default:
-				System.out.println(event.getKeyCode());
-				break;
+			// Action start crawling
+			break;
+		case 27:
+			// Action when "esc" pressed
+			if (pause){
+				pause = false;
+				pan.resume();
+			} else {
+				pause = true;
+				pan.pause();
 			}
+			break;
+		default:
+			System.out.println(event.getKeyCode());
+			break;
 		}
+	
 	}
 
 	public void keyReleased(KeyEvent event) {
