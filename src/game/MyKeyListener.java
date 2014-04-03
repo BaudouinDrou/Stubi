@@ -6,32 +6,50 @@ import java.awt.event.KeyListener;
 public class MyKeyListener implements KeyListener{
 
 	MyPanel pan;
+	int currentKey = -1;
+	boolean pause = false;
 	
 	public MyKeyListener(MyPanel panel){
 		pan = panel;
 	}
 	
 	public void keyPressed(KeyEvent event) {
-		switch (event.getKeyCode()) {
-		case 37:
-			// Action start go left
-			pan.getStubi().setMove('l');
-			break;
-		case 38:
-			// Action start jump
-			break;
-		case 39:
-			// Action start go right
-			pan.getStubi().setMove('r');
-			break;
-		case 40:
-			pan.getStubi().setCrawling(true);
-			// Action start crawling
-			break;
-		default:
-			break;		
+		int code = event.getKeyCode();
+		if (code != currentKey) {
+			currentKey = code;
+			switch (code) {
+			case 37:
+				// Action start go left
+				pan.getStubi().setMove('l');
+				break;
+			case 38:
+			case 32:
+				pan.getStubi().setMove('j');
+				// Action start jump
+				break;
+			case 39:
+				// Action start go right
+				pan.getStubi().setMove('r');
+				break;
+			case 40:
+				pan.getStubi().setCrawling(true);
+				// Action start crawling
+				break;
+			case 27:
+				// Action when "esc" pressed
+				if (pause){
+					pause = false;
+					pan.resume();
+				} else {
+					pause = true;
+					pan.pause();
+				}
+				break;
+			default:
+				System.out.println(event.getKeyCode());
+				break;
+			}
 		}
-		
 	}
 
 	public void keyReleased(KeyEvent event) {
@@ -54,7 +72,6 @@ public class MyKeyListener implements KeyListener{
 		}                  
 	}
 	public void keyTyped(KeyEvent event) {
-//		System.out.println("Code touche tapée : " + event.getKeyCode() + " - caractère touche tapée : " + event.getKeyChar());
-    	
+//		System.out.println("Code touche tapée : " + event.getKeyCode() + " - caractère touche tapée : " + event.getKeyChar());  	
 	}   	
 }

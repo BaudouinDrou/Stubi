@@ -28,7 +28,7 @@ public class Animator {
                 try{
                     sprite = frames.get(currentFrame);
                 } catch(IndexOutOfBoundsException e){
-                    currentFrame = 0;
+                    currentFrame = 1;
                     sprite = frames.get(currentFrame);
                 }
                 previousTime = time;
@@ -39,8 +39,8 @@ public class Animator {
     public void play(){
         running = true;
         previousTime = 0;
-        frameAtPause = 0;
-        currentFrame = 0;
+        frameAtPause = 1;
+        currentFrame = 1;
     }
     
     public void stop(){
