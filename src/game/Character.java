@@ -92,7 +92,8 @@ public class Character {
 			stop();
 			break;
 		case 'j':	// jump
-			jump = 1;
+			if (jump == 0)
+				jump = 1;
 			break;
 		default:
 			moveFactor = 0;
