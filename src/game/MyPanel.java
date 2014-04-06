@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 public class MyPanel extends JPanel{
 	private static final long serialVersionUID = 1L;
 	private volatile Character stubi;
-	private volatile Background map;
+	private volatile Level level;
 	
 	static int gameTimeFrame = 50;
 	
@@ -18,11 +18,7 @@ public class MyPanel extends JPanel{
 	public void init() {
 		int[] seq = {1,2,3,4,5,4,3,2};
 		stubi = new Character("img/perso-sprite.png",90,100,seq,gameTimeFrame);
-		map = new Background("img/LEVEL-1.png");
-	}
-	
-	public Background getMap(){
-		return map;
+		level = new Level(1);
 	}
 	
 	public Character getStubi(){
@@ -48,10 +44,11 @@ public class MyPanel extends JPanel{
     }
     
     public void paintComponent(Graphics g){
-	    // Map
-    	if (map!=null){
-    		map.update(1);
-    		g.drawImage(getMap().getImg(), 0, 0, null);
+	    // Level Background
+    	if (level!=null){
+    		Background bg = level.getBackground(); 
+    		bg.update(1);
+    		g.drawImage(bg.getImg(), 0, 0, null);
     	}
 	    
 	    // Character

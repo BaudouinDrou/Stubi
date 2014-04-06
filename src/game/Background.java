@@ -8,10 +8,6 @@ public class Background {
 	private int x = 0;
 	private int xMax = 0;
 	private int width;
-
-	public Background() {
-		this("img/LEVEL-1.png");
-	}
 	
 	public Background(String path) {
 		ImageLoader loader = new ImageLoader();
@@ -24,6 +20,10 @@ public class Background {
 		ss = new SpriteSheet(img,Stubi.WINDX,Stubi.WINDY);
 		width = img.getWidth(); 
 		xMax =  width - Stubi.WINDX;
+	}
+	
+	public int getWidth(){
+		return width;
 	}
 	
 	public void update(int n){
