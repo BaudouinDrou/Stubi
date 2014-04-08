@@ -9,7 +9,7 @@ public class Character {
 	private volatile Level level;
 	
 	public int x = 150, y = 360;	// Starting Position
-	private int rX = x, rY = y;		// Real position
+	private int rX = x;		// Real position
 	private int moveFactor = 0;	// Number of pixel to change his position
 	private int speed = 3;
 	private int width, height;
