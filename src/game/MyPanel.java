@@ -1,6 +1,7 @@
 package game;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
@@ -44,11 +45,23 @@ public class MyPanel extends JPanel{
     }
     
     public void paintComponent(Graphics g){
-	    // Level Background
+	    // Level Printing
     	if (level!=null){
     		Background bg = level.getBackground(); 
     		bg.update(1);
     		g.drawImage(bg.getImg(), 0, 0, null);
+    		int x = bg.getX();
+    		int j0 = x/50;
+    		int j1 = j0 + Stubi.WINDX/50 + 1;
+    		Obstacle[][] obs = level.getObstacles();
+    		for (int i = 0; i<obs.length;++i){	// i = x coord
+    			for (int j = j0; j<obs[i].length && j<j1; ++j) { // j = y coord
+    				if (obs[i][j] != null) {
+    					Obstacle tmp = obs[i][j];
+    					g.drawImage(tmp.getImg(),tmp.getX()-x,tmp.getY(), null);
+    				}
+    			}
+    		}
     	}
 	    
 	    // Character

@@ -1,5 +1,6 @@
 package game;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 
 public class SpriteSheet {
@@ -8,6 +9,18 @@ public class SpriteSheet {
 	
 	public SpriteSheet(BufferedImage ss){
 		this(ss,50,50);
+	}
+	
+	public SpriteSheet(String path, int width, int height){
+		ImageLoader loader = new ImageLoader();
+		spriteSheet = null;
+		try {
+			spriteSheet = loader.load(path);
+		} catch (IOException exc) {
+			exc.printStackTrace();
+		}
+		this.sWidth = width;
+		this.sHeight = height;
 	}
 	
 	public SpriteSheet(BufferedImage ss, int width, int height){	// width and height are the size of a sprite

@@ -22,6 +22,10 @@ public class Background {
 		xMax =  width - Stubi.WINDX;
 	}
 	
+	public int getX() {
+		return x;
+	}
+	
 	public int getWidth(){
 		return width;
 	}
