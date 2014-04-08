@@ -14,11 +14,25 @@ public class Level {
 		obstacles = Obstacle.readConf(n);
 	}
 	
+	public int getLength(){
+		return length;
+	}
+	
 	public Background getBackground() {
 		return bg;
 	}
 	
 	public Obstacle[][] getObstacles(){
 		return obstacles;
+	}
+	
+	public void printObs() {
+		String asw = "";
+		for (int i = 0; i<obstacles.length;++i) {
+			for (int j = 0; j<obstacles[i].length;++j)
+				asw += i + ":" + j + ":" + obstacles[i][j].collision() + " ";
+			asw += '\n';
+		}
+		System.out.println(asw);
 	}
 }

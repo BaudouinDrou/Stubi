@@ -1,4 +1,6 @@
 package game;
+import java.awt.Dimension;
+
 import javax.swing.JFrame;
 
 
@@ -28,9 +30,11 @@ public class Stubi extends JFrame {
         pan.addKeyListener(new MyKeyListener(pan));
         setContentPane(pan);
         pan.init();
+        pan.setPreferredSize(new Dimension(WINDX, WINDY));
         
         // Make the character "Stubi" play his animation
         pan.getStubi().play();
+        pack();	// To be fixed, provisional solution
 //        try {
 //			Thread.sleep(4500);
 //		} catch (InterruptedException e) {

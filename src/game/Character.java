@@ -6,7 +6,10 @@ import java.util.ArrayList;
 
 public class Character {
 	private Animator display;
-	public int x = 50, y = 360;	// Position
+	private volatile Level level;
+	
+	public int x = 150, y = 360;	// Starting Position
+	private int rX = x, rY = y;		// Real position
 	private int moveFactor = 0;	// Number of pixel to change his position
 	private int speed = 3;
 	private int width, height;
@@ -15,27 +18,21 @@ public class Character {
 	private int timeFrame;
 	
 	private int jump = 0;
-	private int jumpSize = 6;
+	private int gravity = 6;
+	
+	private boolean dead = false;
 
 	// Constructors
 	
-	public Character(){
-		this("img/perso-sprite.png");
+	public Character(String path, Level lvl){
+		this(path, 50, 100, null, lvl);
 	}
 	
-	public Character(String path){
-		this(path, 50, 100);
+	public Character(String path, int sWidth, int sHeight, int[]sequence, Level lvl){
+		this(path, sWidth, sHeight,sequence,MyPanel.gameTimeFrame, lvl);
 	}
 	
-	public Character(String path, int sWidth, int sHeight){
-		this(path, sWidth, sHeight,null);
-	}
-	
-	public Character(String path, int sWidth, int sHeight, int[]sequence){
-		this(path, sWidth, sHeight,sequence,MyPanel.gameTimeFrame);
-	}
-	
-	public Character(String path, int sWidth, int sHeight, int[]sequence, int timeFrame){
+	public Character(String path, int sWidth, int sHeight, int[]sequence, int timeFrame,Level level){
 		ImageLoader loader = new ImageLoader();
 		BufferedImage spriteSheet = null;
 		try {
@@ -65,12 +62,19 @@ public class Character {
 		// Setting time settings
 		this.timeFrame = timeFrame;
 		previousTime = 0;
+		
+		// Level 
+		this.level = level;
 	}
 	
 	// Getters Setters
 	
 	public BufferedImage getSprite(){
 		return display.sprite;
+	}
+	
+	public boolean dead() {
+		return dead;
 	}
 	
 	public void setDisplaySpeed(long n){
@@ -132,43 +136,70 @@ public class Character {
 	public void update(long time){
 		display.update(time);
 		if(time - previousTime >= timeFrame) {
+			gravityUpdate(time);
 			// movement
 			x += moveFactor;
-			jumpUpdate(time);
+			rX += moveFactor;
 			
-			// Right and left side limit for the character :
-			if (x+width>Stubi.WINDX)
-				x = Stubi.WINDX-width;
-			if (x<0)
-				x = 0;
-			// Ground limit :
-			if (y+height>Stubi.WINDY)
-				y = Stubi.WINDY-height;
-			// Rooftop limit :
+			// Right side limit for the character
+			if (x+width>Stubi.WINDX-250) {
+				if (!level.getBackground().update(moveFactor))
+					x = Stubi.WINDX-250-width;
+				else // end of the lvl
+					x = Math.min(Stubi.WINDX-width,x);
+			}
+			if (rX+width>level.getLength()){
+				rX = level.getLength()-width;
+			}
+			// Left side limit for the character :
+			if (x<50) {
+				x = 50;
+				level.getBackground().update(moveFactor);
+			}
+			if (rX<50) {
+				rX = 50;
+			}
+			// Roof limit
 			if (y<0)
 				y = 0;
 		}
 	}
 	
-	private void jumpUpdate(long time){
+	private void gravityUpdate(long time){
 		if (jump != 0) {
+			// Jump case
 			if (jump < 15) {	// Go higher
-				y -= jumpSize;
+				y -= gravity;
 				++jump;
 			} else if (jump < 30) {	// Go higher more slowly
-				y -= jumpSize/2;
+				y -= gravity/2;
 				++jump;				
 			} else if (jump == 30) {	// Stand
 				++jump;				
 			} else if (jump <= 45) {	// Start reaching the ground
-				y += jumpSize/2;
+				y += gravity/2;
 				++jump;
 			} else if (jump <60) {	// Start reaching the ground
-				y += jumpSize;
+				y += gravity;
 				++jump;
 			} else {
 				jump = 0;				
 			}
+		} else {
+			// Gravity :
+			y += gravity;
+		}
+		
+		Obstacle[][] obs = level.getObstacles();
+		
+		// Testing the boxes below Stubi :
+		int i = (y+height)/50; // box below the Nbox (one occupied by Stubi's feet) ex : y = 365 => i = 9 (start count at 0 !!!), 10th line
+		int j = rX/50;
+		if (i>=obs.length) {
+			dead = true;
+		} else {
+			if (obs[i][j].collision() || obs[i][j+1].collision())
+				y = i*50 - height -1;	// Put Stubi back in his N box if collision i = 9 => y = 350
 		}
 	}
 }

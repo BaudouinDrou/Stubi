@@ -1,7 +1,6 @@
 package game;
 import java.awt.Graphics;
 import java.awt.Image;
-import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
@@ -18,8 +17,8 @@ public class MyPanel extends JPanel{
 
 	public void init() {
 		int[] seq = {1,2,3,4,5,4,3,2};
-		stubi = new Character("img/perso-sprite.png",90,100,seq,gameTimeFrame);
 		level = new Level(1);
+		stubi = new Character("img/perso-sprite.png",90,100,seq,gameTimeFrame,level);
 	}
 	
 	public Character getStubi(){
@@ -45,10 +44,10 @@ public class MyPanel extends JPanel{
     }
     
     public void paintComponent(Graphics g){
+	    
 	    // Level Printing
     	if (level!=null){
-    		Background bg = level.getBackground(); 
-    		bg.update(1);
+    		Background bg = level.getBackground();
     		g.drawImage(bg.getImg(), 0, 0, null);
     		int x = bg.getX();
     		int j0 = x/50;
@@ -56,19 +55,19 @@ public class MyPanel extends JPanel{
     		Obstacle[][] obs = level.getObstacles();
     		for (int i = 0; i<obs.length;++i){	// i = x coord
     			for (int j = j0; j<obs[i].length && j<j1; ++j) { // j = y coord
-    				if (obs[i][j] != null) {
     					Obstacle tmp = obs[i][j];
-    					g.drawImage(tmp.getImg(),tmp.getX()-x,tmp.getY(), null);
-    				}
+    					if (tmp.print())
+    						g.drawImage(tmp.getImg(),tmp.getX()-x,tmp.getY(), null);
     			}
     		}
     	}
-	    
-	    // Character
+    	
+    	// Character Printing
 	    if(stubi  != null){
 	    	stubi.update(System.currentTimeMillis());
 	        g.drawImage(getStubi().getSprite(),stubi.x,stubi.y, null);
-	    }		    
+	    }
+    	
 	    repaint();
     }
 }

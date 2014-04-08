@@ -6,7 +6,7 @@ import java.io.IOException;
 public class Background {
 	public SpriteSheet ss;
 	private int x = 0;
-	private int xMax = 0;
+	private int xMax;
 	private int width;
 	
 	public Background(String path) {
@@ -30,8 +30,11 @@ public class Background {
 		return width;
 	}
 	
-	public void update(int n){
+	public boolean update(int n){
 		x = Math.min(x + n,xMax);
+		if (x<0)
+			x = 0;
+		return (x==xMax);
 	}
 	
 	public BufferedImage getImg(){
