@@ -1,10 +1,8 @@
-cd "/src/game/"
-javac -d "../../META-INF/game/" *.java 
+cd META-INF
+echo src/game/*.java > fileList.txt
+javac -d . @fileList.txt 
 
-cd ../img
-cp *.png "../../META-INF/img/"
-cd ../conf 
-cp * "../../META-INF/conf/"
+cp /src/img/*.png /img/
+cp /src/conf/* /conf/
 
-cd "../../META-INF"
 jar cvfm "../Stubi.jar" MANIFEST.MF .
