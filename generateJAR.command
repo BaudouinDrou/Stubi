@@ -1,4 +1,4 @@
-cd META-INF
+cd /META-INF/
 ls src/game/ > fileList.txt
 javac -d . @fileList.txt 
 
