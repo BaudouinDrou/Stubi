@@ -1,5 +1,5 @@
 cd META-INF
-echo src/game/*.java > fileList.txt
+ls src/game/ > fileList.txt
 javac -d . @fileList.txt 
 
 cp /src/img/*.png /img/
