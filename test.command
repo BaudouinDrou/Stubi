@@ -1,3 +1,4 @@
 #! /bin/sh
 
-sudo java -jar "Stubi.jar"
+chmod 755 test.command
+java -jar "Stubi.jar"
