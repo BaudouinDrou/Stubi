@@ -60,7 +60,7 @@ public class MyKeyListener implements KeyListener{
 	}
 
 	public void keyReleased(KeyEvent event) {
-//		System.out.println("Code touche relachee : " + event.getKeyCode() + " - caractere touche relachee : " + event.getKeyChar());         
+//		System.out.println("Code touche relâchée : " + event.getKeyCode() + " - caractère touche relâchée : " + event.getKeyChar());         
 		switch (event.getKeyCode()) {
 		case 37:
 		case 81:
@@ -82,6 +82,6 @@ public class MyKeyListener implements KeyListener{
 		}                  
 	}
 	public void keyTyped(KeyEvent event) {
-//		System.out.println("Code touche tapee : " + event.getKeyCode() + " - caractere touche tapee : " + event.getKeyChar());  	
+//		System.out.println("Code touche tapée : " + event.getKeyCode() + " - caractère touche tapée : " + event.getKeyChar());  	
 	}   	
 }
