@@ -1,6 +1,6 @@
 cd /src/game/
-javac *.java
-cd ..
+echo *.java | javac
+cd ../..
 mv /src/game/*.class META-INF/game/
 cp /src/img/*.png META-INF/img/ 
 cp /src/conf/ META-INF/conf/
