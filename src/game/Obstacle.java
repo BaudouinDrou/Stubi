@@ -7,13 +7,14 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class Obstacle {
-	private static int sWidth = 50;
-	private static int sHeight = 50;
+	private static int sWidth = 30;
+	private static int sHeight = 30;
+	private static int confLines = Stubi.WINDY/sWidth;
 	private static SpriteSheet ss = new SpriteSheet("img/obstacles.png",sWidth,sHeight);
 	private int n;		// type of obstacle
 	private int x,y;	// position in the image
 	private boolean collision = true;
-	private boolean print = true;
+	private boolean print = true; 
 	
 	public Obstacle(int n, int x, int y) {	// n will be the type of obstacle
 		this.n = n;
@@ -73,7 +74,7 @@ public class Obstacle {
 	*/
 	public static Obstacle[][] readConf(int n){
 		String path = "/conf/confLevel"+ n +".txt";		
-		Obstacle[][] obs = new Obstacle[12][];
+		Obstacle[][] obs = new Obstacle[Obstacle.confLines][];
 		
 		InputStreamReader isReader= new InputStreamReader(Obstacle.class.getResourceAsStream(path));
 		try (BufferedReader reader = new BufferedReader(isReader)) {
