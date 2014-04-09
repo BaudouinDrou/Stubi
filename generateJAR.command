@@ -5,5 +5,5 @@ sudo mv src/game/*.class META-INF/game/
 sudo cp src/img/*.png META-INF/img/ 
 sudo cp src/conf/ META-INF/conf/
 
-cd META-INF
+sudo cd META-INF
 sudo jar cvfm "../Stubi.jar" MANIFEST.MF .
