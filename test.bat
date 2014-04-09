@@ -1,9 +1,5 @@
 @ECHO ON
 
-cd src
-del *.class
-javac *.java
-
-java Stubi
+java -Xmx3G -Xms1G -jar "Stubi.jar"
 
 @PAUSE

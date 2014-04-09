@@ -1,7 +1,3 @@
 #! /bin/sh
 
-cd src
-rm *.class
-javac *.java
-
-java Stubi
+sudo java -jar "Stubi.jar"
