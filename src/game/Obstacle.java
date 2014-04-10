@@ -17,7 +17,10 @@ public class Obstacle {
 	private int n;		// type of obstacle
 	private int x,y;	// position in the image
 	private boolean collisionTop = true;
-	private boolean visible = true; 
+	private boolean collisionBot = true;
+	private boolean collisionSide = true;
+	private boolean visible = true;
+	private int hurting;
 	
 	/**
 	 * Main Constructor
@@ -129,7 +132,7 @@ public class Obstacle {
 		    int j = 0;	// y coord
 		    while ((line = reader.readLine()) != null) {	// Reading the file line by line
 				ArrayList<Obstacle> tmpObs = new ArrayList<Obstacle>();	// creates an arrayList to contain the elements
-				String[] split = line.split("'");
+				String[] split = line.split(",");
 		    	for (int i = 0; i<split.length; ++i){	// i = x coord
 		    		tmpObs.add(StringToObs(split[i],i,j));
 		    	}
