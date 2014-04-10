@@ -7,10 +7,6 @@ import javax.swing.JFrame;
 public class Stubi extends JFrame {
 	/**
 	 * Main class of the Stubi project
-	 * 
-	 * @author Baudouin Duthoit
-	 * @author Romain Duthoit
-	 * @version 0.0
 	 */
 	private static final long serialVersionUID = 1L;
 	private MyPanel pan;

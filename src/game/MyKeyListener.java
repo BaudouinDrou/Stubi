@@ -4,15 +4,24 @@ import java.awt.event.KeyListener;
 
 
 public class MyKeyListener implements KeyListener{
-
+	/**
+	 * This class is here to respond to user's input via keyboard
+	 */
 	MyPanel pan;
 	int currentKey = -1;
 	boolean pause = false;
 	
+	/**
+	 * Main constructor
+	 * @param panel is the Panel, the KeyListener will be used in
+	 */
 	public MyKeyListener(MyPanel panel){
 		pan = panel;
 	}
 	
+	/**
+	 * This function will react when the user will press a key, depending on the key, a different action is to be expected
+	 */
 	public void keyPressed(KeyEvent event) {
 		int code = event.getKeyCode();
 		boolean nonRepeat = (code != currentKey);
@@ -59,9 +68,14 @@ public class MyKeyListener implements KeyListener{
 	
 	}
 
+	/**
+	 * This function is here to send the information of a released key
+	 */
 	public void keyReleased(KeyEvent event) {
-//		System.out.println("Code touche relachee : " + event.getKeyCode() + " - caractere touche relachee : " + event.getKeyChar());         
-		switch (event.getKeyCode()) {
+		int code = event.getKeyCode();
+		if (code==currentKey)
+			currentKey = -1;
+		switch (code) {
 		case 37:
 		case 81:
 			pan.getStubi().setMove('s');	// stand
@@ -81,6 +95,10 @@ public class MyKeyListener implements KeyListener{
 			break;		
 		}                  
 	}
+	
+	/**
+	 * Unused for now, this function could be useful later
+	 */
 	public void keyTyped(KeyEvent event) {
 //		System.out.println("Code touche tapee : " + event.getKeyCode() + " - caractere touche tapee : " + event.getKeyChar());  	
 	}   	

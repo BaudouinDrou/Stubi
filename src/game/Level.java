@@ -2,16 +2,22 @@ package game;
 
 
 public class Level {
+	/**
+	 * This class contain data about the level : Background, length for the character & list of obstacles
+	 */
 	private int length;	// distance to be run by Stubi
-	public Background bg;	// background image
+	private Background bg;	// background image
+	private Obstacle[][] obstacles;	// Obastacle within the game
 	
-	private Obstacle[][] obstacles;
-	
+	/**
+	 * Main constructor
+	 * @param n is the level number
+	 */
 	public Level(int n) {
 		String path = "img/LEVEL-" + n + ".png";
 		bg = new Background(path);
 		length = bg.getWidth();
-		obstacles = Obstacle.readConfTxt(n);
+		obstacles = Obstacle.readConfCsv(n);
 	}
 	
 	public int getLength(){
@@ -26,6 +32,10 @@ public class Level {
 		return obstacles;
 	}
 	
+	/**
+	 * This function has been used for testing the loading of Obstacle
+	 * @deprecated
+	 */
 	public void printObs() {
 		String asw = "";
 		for (int i = 0; i<obstacles.length;++i) {

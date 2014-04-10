@@ -4,25 +4,36 @@ import java.util.ArrayList;
 
 
 public class Animator {
+	/**
+	 * This class is mainly used to have animation for the characters
+	 */
 	private ArrayList<BufferedImage> frames;
     public BufferedImage sprite;
 	    
     private volatile boolean running = false;
 	    
-    private long previousTime, speed;
+    private long previousTime, refreshTime;
     private int frameAtPause, currentFrame;
     
+    /**
+     * Main constructor.
+     * @param frames is an ArrayList of BufferedImage that will be printed on the screen
+     */
     public Animator(ArrayList<BufferedImage> frames){
         this.frames = frames;
     }
     
-    public void setSpeed(long speed){
-        this.speed = speed;
+    public void setRefreshTime(long refreshTime){
+        this.refreshTime = refreshTime;
     }
     
+    /**
+     * This is the core method of this class that update the animation every refreshTime ms.
+     * @param time
+     */
     public void update(long time){
         if(running){
-            if(time - previousTime >= speed){
+            if(time - previousTime >= refreshTime){
                 //Update the animation
                 currentFrame++;
                 try{

@@ -5,6 +5,10 @@ import java.util.ArrayList;
 
 
 public class Character {
+	/**
+	 * This class describe all characters in the game
+	 * For now, only the main character exist and he is the only one implemented in that class
+	 */
 	private Animator display;
 	private volatile Level level;
 	
@@ -12,6 +16,7 @@ public class Character {
 	private int rX = x;		// Real position
 	private int moveFactor = 0;	// Number of pixel to change his position
 	private int speed = 3;
+	private boolean crawl = false;
 	private int width, height;
 	
 	private long previousTime = 0;
@@ -23,7 +28,6 @@ public class Character {
 	private boolean dead = false;
 
 	// Constructors
-	
 	public Character(String path, Level lvl){
 		this(path, 50, 100, null, lvl);
 	}
@@ -32,6 +36,15 @@ public class Character {
 		this(path, sWidth, sHeight,sequence,MyPanel.gameTimeFrame, lvl);
 	}
 	
+	/**
+	 * This constructor is the main one
+	 * @param path is the path to the sprite sheet for the character (usually "img/XXX.png")
+	 * @param sWidth is the width of one sprite
+	 * @param sHeight is the height of one sprite
+	 * @param sequence is the sequence of sprites that makes his walk
+	 * @param timeFrame is the refreshing time for the animation
+	 * @param level level is the level the character is playing in
+	 */
 	public Character(String path, int sWidth, int sHeight, int[]sequence, int timeFrame,Level level){
 		ImageLoader loader = new ImageLoader();
 		BufferedImage spriteSheet = null;
@@ -57,7 +70,7 @@ public class Character {
 		} // If sequence empty act as no walk
 		
 		display = new Animator(sprites);
-		display.setSpeed(timeFrame);
+		display.setRefreshTime(timeFrame);
 		
 		// Setting time settings
 		this.timeFrame = timeFrame;
@@ -77,18 +90,26 @@ public class Character {
 		return dead;
 	}
 	
-	public void setDisplaySpeed(long n){
-		display.setSpeed(n);
+	public void setDisplayRefreshTime(long n){
+		display.setRefreshTime(n);
 	}
 	
+	/**
+	 * This function is called by MyKeyListener to set a move to the character
+	 * @param c is the kind of move to set to the character
+	 */
 	public void setMove(char c) {
 		switch (c){
 		case 'r':	// right
 			moveFactor = speed;
+			if (crawl)
+				moveFactor /= 2;
 			play();
 			break;
 		case 'l':	// left
 			moveFactor = -speed;
+			if (crawl)
+				moveFactor /= 2;
 			play();
 			break;
 		case 's':	// stand
@@ -96,7 +117,7 @@ public class Character {
 			stop();
 			break;
 		case 'j':	// jump
-			if (jump == 0)
+			if (jump == 0)	// jump only if the character is not previously jumping
 				jump = 1;
 			break;
 		default:
@@ -106,11 +127,12 @@ public class Character {
 		}
 	}
 	
+	/**
+	 * This function set if the character is crawling or not
+	 * @param b is the boolean value (crawling or not)
+	 */
 	public void setCrawling(boolean b){
-		if (b)
-			speed /= 2;
-		else
-			speed *= 2;
+		crawl = b;
 	}
 	
 	// Services
@@ -132,11 +154,15 @@ public class Character {
 	}
 
 	// Other functions
-	
+	/**
+	 * This method is called every time we want to print the character on the screen. We test the refreshment time before doing anything
+	 * @param time is the current time of the game
+	 */
 	public void update(long time){
 		display.update(time);
 		if(time - previousTime >= timeFrame) {
-			gravityUpdate(time);
+			gravityUpdate();
+			collisionUpdate();
 			// movement
 			x += moveFactor;
 			rX += moveFactor;
@@ -165,7 +191,10 @@ public class Character {
 		}
 	}
 	
-	private void gravityUpdate(long time){
+	/**
+	 * This function is updating the gravity factor based on the character (jumping or not)
+	 */
+	private void gravityUpdate(){
 		if (jump != 0) {
 			// Jump case
 			if (jump < 15) {	// Go higher
@@ -189,9 +218,21 @@ public class Character {
 			// Gravity :
 			y += gravity;
 		}
-		
+	}
+	
+	/**
+	 * This function is applying collision with obstacles, resetting the character at his right place
+	 */
+	private void collisionUpdate() {
 		Obstacle[][] obs = level.getObstacles();
-		
+		collisionUpDown(obs);
+	}
+	
+	/**
+	 * This function is testing the collision with the below obstacles
+	 * @param obs is an array of array containing Obstacle
+	 */
+	private void collisionUpDown(Obstacle[][] obs) {
 		// Testing the boxes below Stubi :
 		int i = (y+height)/Obstacle.getHeight(); // box below the Nbox (one occupied by Stubi's feet) ex : y = 365 => i = 9 (start count at 0 !!!), 10th line
 		int j = rX/Obstacle.getWidth();

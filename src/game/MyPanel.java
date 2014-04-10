@@ -8,9 +8,6 @@ import javax.swing.JPanel;
 public class MyPanel extends JPanel{
 	/**
 	 * This class contain the JPanel where the game will take place
-	 * @author Baudouin Duthoit
-	 * @author Romain Duthoit
-	 * @version 0.0
 	 */
 	private static final long serialVersionUID = 1L;
 	private volatile Character stubi;
@@ -72,7 +69,7 @@ public class MyPanel extends JPanel{
     		for (int i = 0; i<obs.length;++i){	// i = x coord
     			for (int j = j0; j<obs[i].length && j<j1; ++j) { // j = y coord
     					Obstacle tmp = obs[i][j];
-    					if (tmp.print())
+    					if (tmp.visible())
     						g.drawImage(tmp.getImg(),tmp.getX()-x,tmp.getY(), null);
     			}
     		}

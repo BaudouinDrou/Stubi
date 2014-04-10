@@ -2,8 +2,6 @@ package game;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
-import javax.jws.soap.SOAPBinding.Use;
-
 
 public class SpriteSheet {
 	/**
@@ -35,7 +33,7 @@ public class SpriteSheet {
 	}
 	
 	/**
-	 * This constructor is usefull if the image is already loaded from its path otherwise, use the main constructor
+	 * This constructor is useful if the image is already loaded from its path otherwise, use the main constructor
 	 * @param ss is the image which will be the sprite sheet
 	 * @param width is the width of one sprite
 	 * @param height is the height of one sprite

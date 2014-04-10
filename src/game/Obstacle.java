@@ -7,6 +7,9 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 public class Obstacle {
+	/**
+	 * This class describe an obstacle
+	 */
 	private static int sWidth = 30;
 	private static int sHeight = 30;
 	private static int confLines = Stubi.WINDY/sWidth;
@@ -14,9 +17,15 @@ public class Obstacle {
 	private int n;		// type of obstacle
 	private int x,y;	// position in the image
 	private boolean collisionTop = true;
-	private boolean print = true; 
+	private boolean visible = true; 
 	
-	public Obstacle(int n, int x, int y) {	// n will be the type of obstacle
+	/**
+	 * Main Constructor
+	 * @param n is the type of the Obstacle
+	 * @param x is the X coordinate on the whole level
+	 * @param y is the Y coordinate on the whole level
+	 */
+	public Obstacle(int n, int x, int y) {
 		this.n = n;
 		this.x = x;
 		this.y = y;
@@ -39,8 +48,8 @@ public class Obstacle {
 		return collisionTop;
 	}
 	
-	public boolean print() {
-		return print;
+	public boolean visible() {
+		return visible;
 	}
 	
 	public BufferedImage getImg() {
@@ -60,8 +69,8 @@ public class Obstacle {
 		collisionTop = b;
 	}
 	
-	public void setPrint(boolean b) {
-		print = b;
+	public void setVisible(boolean b) {
+		visible = b;
 	}
 	
 	// Classical functions
@@ -77,8 +86,11 @@ public class Obstacle {
 	
 	// Other functions	
 	
-	/*
-	 * This function is reading a configuration file and depending on this, create an array of obstacles with the help of the function below
+	/**
+	 * This function is reading a configuration file and depending on this, create an array of obstacles with the help of charToObs
+	 * @param n is the level number : each level has a different configuration
+	 * @return a bi-dimensional array of Obstacle 
+	 * @deprecated
 	*/
 	public static Obstacle[][] readConfTxt(int n){
 		String path = "/conf/confLevel"+ n +".txt";		
@@ -102,8 +114,10 @@ public class Obstacle {
 		return obs;
 	}	
 	
-	/*
-	 * This function is reading a configuration file and depending on this, create an array of obstacles with the help of the function below
+	/**
+	 * This function is reading a configuration file and depending on this, create an array of obstacles with the help of StringToObs
+	 * @param n is the level number : each level has a different configuration
+	 * @return a bi-dimensional array of Obstacle 
 	*/
 	public static Obstacle[][] readConfCsv(int n){
 		String path = "/conf/confLevel"+ n +".csv";		
@@ -128,18 +142,33 @@ public class Obstacle {
 		return obs;
 	}
 	
+	/**
+	 * This method return an Obstacle from it's given char ID 
+	 * @param c is its ID
+	 * @param i is its position on the line (will be used to know its position on the screen)
+	 * @param j is its position on the column (will be used to know its position on the screen)
+	 * @return an Obstacle
+	 * @deprecated
+	 */
 	private static Obstacle charToObs(char c, int i, int j){
 		String s = c + "";
 		return StringToObs(s, i, j);
 	}
 	
+	/**
+	 * This method return an Obstacle from it's given String ID ("12", "grass", "soil", ...) 
+	 * @param s is its ID
+	 * @param i is its position on the line (will be used to know its position on the screen)
+	 * @param j is its position on the column (will be used to know its position on the screen)
+	 * @return an Obstacle
+	 */
 	private static Obstacle StringToObs(String s, int i, int j){
 		Obstacle asw = null;
 		switch(s){
 		case "":
 			asw = new Obstacle(10,i*sWidth,j*sHeight);
 			asw.setCollisionTop(false);
-			asw.setPrint(false);
+			asw.setVisible(false);
 			break;
 		case "0":	// Wall
 			asw = new Obstacle(0,i*sWidth,j*sHeight);
@@ -170,7 +199,7 @@ public class Obstacle {
 		default:
 			asw = new Obstacle(10,i*sWidth,j*sHeight);
 			asw.setCollisionTop(false);
-			asw.setPrint(false);
+			asw.setVisible(false);
 		}
 		return asw;
 	}
