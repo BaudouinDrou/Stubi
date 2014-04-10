@@ -22,8 +22,10 @@ public class MyPanel extends JPanel{
      * This is the default constructor
      */
 	public MyPanel() {
+		int lvl = 1;
+		genObstacle.init(lvl);
 		int[] seq = {1,2,3,4,5,4,3,2};
-		level = new Level(1);
+		level = new Level(lvl);
 		stubi = new Character("img/perso-sprite.png",90,100,seq,gameTimeFrame,level);
 	}
 	

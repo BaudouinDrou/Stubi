@@ -138,7 +138,7 @@ public class genObstacle {
 		try (BufferedReader reader = new BufferedReader(isReader)) {
 		    String line = reader.readLine();	// read the first line
 		    while ((line = reader.readLine()) != null) {	// Reading the file line by line
-				String[] split = line.split(",");
+				String[] split = line.split(";");
 				int ID = Integer.parseInt(split[1]);
 				boolean cT = (split[2]=="1");
 				boolean cB = (split[3]=="1");

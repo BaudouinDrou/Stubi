@@ -20,13 +20,17 @@ public class Obstacle extends genObstacle {
 	 * @param y is the Y coordinate on the whole level
 	 */	
 	public Obstacle(String key, int x, int y) {
+		if (key == "")
+			key = " ";
 		genObstacle tmp = (genObstacle) genObstacle.obsMapping.get(key);
-		super.n = tmp.getID();
-		super.collisionTop = tmp.CollisionTop();
-		super.collisionBot = tmp.CollisionBot();
-		super.collisionSide = tmp.CollisionSide();
-		super.visible = tmp.visible();
-		super.hurting = tmp.getDmg();
+		if (tmp != null) {
+			super.n = tmp.getID();
+			super.collisionTop = tmp.CollisionTop();
+			super.collisionBot = tmp.CollisionBot();
+			super.collisionSide = tmp.CollisionSide();
+			super.visible = tmp.visible();
+			super.hurting = tmp.getDmg();
+		}
 		this.x = x;
 		this.y = y;
 	}
@@ -68,7 +72,7 @@ public class Obstacle extends genObstacle {
 		    int j = 0;	// y coord
 		    while ((line = reader.readLine()) != null) {	// Reading the file line by line
 				ArrayList<Obstacle> tmpObsList = new ArrayList<Obstacle>();	// creates an arrayList to contain the elements
-				String[] split = line.split(",");
+				String[] split = line.split(";");
 		    	for (int i = 0; i<split.length; ++i){	// i = x coord
 		    		int x = i*genObstacle.getWidth();
 		    		int y = j*genObstacle.getHeight();
