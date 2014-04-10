@@ -6,6 +6,12 @@ import javax.swing.JPanel;
 
 
 public class MyPanel extends JPanel{
+	/**
+	 * This class contain the JPanel where the game will take place
+	 * @author Baudouin Duthoit
+	 * @author Romain Duthoit
+	 * @version 0.0
+	 */
 	private static final long serialVersionUID = 1L;
 	private volatile Character stubi;
 	private volatile Level level;
@@ -14,13 +20,20 @@ public class MyPanel extends JPanel{
 	
 	Image dbImage;
     Graphics dbg;
-
-	public void init() {
+    
+    /**
+     * This is the default constructor
+     */
+	public MyPanel() {
 		int[] seq = {1,2,3,4,5,4,3,2};
 		level = new Level(1);
 		stubi = new Character("img/perso-sprite.png",90,100,seq,gameTimeFrame,level);
 	}
 	
+	/**
+	 * This method give the main character which is included inside the JPanel
+	 * @return the main Character which name is Stubi
+	 */
 	public Character getStubi(){
 		return stubi;
 	}
@@ -43,8 +56,11 @@ public class MyPanel extends JPanel{
         g.drawImage(dbImage, 0, 0, null);
     }
     
+	/**
+	 * This method print the components on the JPanel
+	 * @param g is a Graphics object used by the paint method
+	 */
     public void paintComponent(Graphics g){
-	    
 	    // Level Printing
     	if (level!=null){
     		Background bg = level.getBackground();
@@ -61,7 +77,6 @@ public class MyPanel extends JPanel{
     			}
     		}
     	}
-    	
     	// Character Printing
 	    if(stubi  != null){
 	    	stubi.update(System.currentTimeMillis());

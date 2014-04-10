@@ -6,13 +6,20 @@ import javax.swing.JFrame;
 
 public class Stubi extends JFrame {
 	/**
+	 * Main class of the Stubi project
 	 * 
+	 * @author Baudouin Duthoit
+	 * @author Romain Duthoit
+	 * @version 0.0
 	 */
 	private static final long serialVersionUID = 1L;
 	private MyPanel pan;
 	public static int WINDX = 800;
 	public static int WINDY = 600;
 	
+	/**
+	 * This constructor without parameters is setting up everything for the window and start the beneath functions from the JPanel
+	 */
 	public Stubi(){
 		// Window parameter
 		setTitle("Stubi");
@@ -29,24 +36,19 @@ public class Stubi extends JFrame {
         pan.requestFocus();
         pan.addKeyListener(new MyKeyListener(pan));
         setContentPane(pan);
-        pan.init();
         pan.setPreferredSize(new Dimension(WINDX, WINDY));
         
-        // Make the character "Stubi" play his animation
-        pan.getStubi().play();
         pack();	// To be fixed, provisional solution
-//        try {
-//			Thread.sleep(4500);
-//		} catch (InterruptedException e) {
-//			e.printStackTrace();
-//		}
-//        pan.getStubi().stop();
 	}
 	
 	public String toString(){
 		return "Successful test !";
 	}
     
+	/**
+	 * This is the main method which is launching the game
+	 * @param arg is the standard paramter for the main method
+	 */
     public static void main(String [] arg) {
 		Stubi test = new Stubi();
 		System.out.println(test);
