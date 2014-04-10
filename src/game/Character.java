@@ -193,12 +193,18 @@ public class Character {
 		Obstacle[][] obs = level.getObstacles();
 		
 		// Testing the boxes below Stubi :
-		int i = (y+height)/50; // box below the Nbox (one occupied by Stubi's feet) ex : y = 365 => i = 9 (start count at 0 !!!), 10th line
-		int j = rX/50;
+		int i = (y+height)/Obstacle.getHeight(); // box below the Nbox (one occupied by Stubi's feet) ex : y = 365 => i = 9 (start count at 0 !!!), 10th line
+		int j = rX/Obstacle.getWidth();
+		int k = rX%Obstacle.getWidth();
 		if (i>=obs.length) {
 			dead = true;
 		} else {
-			if (obs[i][j].collision() || obs[i][j+1].collision())
+			boolean colide = obs[i][j].CollisionTop();	// box below his left foot
+			while (k<width){	// try all boxes below Stubi
+				colide |= obs[i][++j].CollisionTop();
+				k += Obstacle.getWidth();
+			}				
+			if (colide)
 				y = i*50 - height -1;	// Put Stubi back in his N box if collision i = 9 => y = 350
 		}
 	}

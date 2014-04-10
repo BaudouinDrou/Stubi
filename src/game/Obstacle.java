@@ -13,7 +13,7 @@ public class Obstacle {
 	private static SpriteSheet ss = new SpriteSheet("img/obstacles.png",sWidth,sHeight);
 	private int n;		// type of obstacle
 	private int x,y;	// position in the image
-	private boolean collision = true;
+	private boolean collisionTop = true;
 	private boolean print = true; 
 	
 	public Obstacle(int n, int x, int y) {	// n will be the type of obstacle
@@ -35,8 +35,8 @@ public class Obstacle {
 		return n;
 	}
 	
-	public boolean collision() {
-		return collision;
+	public boolean CollisionTop() {
+		return collisionTop;
 	}
 	
 	public boolean print() {
@@ -47,9 +47,17 @@ public class Obstacle {
 		return ss.getSprite(n);
 	}
 	
+	public static int getHeight() {
+		return sHeight;
+	}
+	
+	public static int getWidth() {
+		return sWidth;
+	}
+	
 	// Setters
-	public void setCollision(boolean b) {
-		collision = b;
+	public void setCollisionTop(boolean b) {
+		collisionTop = b;
 	}
 	
 	public void setPrint(boolean b) {
@@ -63,7 +71,7 @@ public class Obstacle {
 		asw += "Position x : " + x + " and int pos " + (int) x/50 + '\n';
 		asw += "Position y : " + y + " and int pos " + (int) y/50 + '\n';
 		asw += "Type of Obstacle : " + n + '\n';
-		asw += "Collision : " + collision;
+		asw += "Collision Top : " + collisionTop;
 		return asw;
 	}
 	
@@ -99,7 +107,7 @@ public class Obstacle {
 		switch(c){
 		case ' ':
 			asw = new Obstacle(10,i*sWidth,j*sHeight);
-			asw.setCollision(false);
+			asw.setCollisionTop(false);
 			asw.setPrint(false);
 			break;
 		case '0':	// Wall
@@ -126,11 +134,11 @@ public class Obstacle {
 			break;
 		case '/':	// Final portal
 			asw = new Obstacle(15,i*sWidth,j*sHeight);
-			asw.setCollision(false);
+			asw.setCollisionTop(false);
 			break;
 		default:
 			asw = new Obstacle(10,i*sWidth,j*sHeight);
-			asw.setCollision(false);
+			asw.setCollisionTop(false);
 			asw.setPrint(false);
 		}
 		return asw;

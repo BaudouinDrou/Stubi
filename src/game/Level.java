@@ -30,7 +30,7 @@ public class Level {
 		String asw = "";
 		for (int i = 0; i<obstacles.length;++i) {
 			for (int j = 0; j<obstacles[i].length;++j)
-				asw += i + ":" + j + ":" + obstacles[i][j].collision() + " ";
+				asw += i + ":" + j + ":" + obstacles[i][j].CollisionTop() + " ";
 			asw += '\n';
 		}
 		System.out.println(asw);
