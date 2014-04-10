@@ -11,7 +11,7 @@ public class Level {
 		String path = "img/LEVEL-" + n + ".png";
 		bg = new Background(path);
 		length = bg.getWidth();
-		obstacles = Obstacle.readConf(n);
+		obstacles = Obstacle.readConfTxt(n);
 	}
 	
 	public int getLength(){
