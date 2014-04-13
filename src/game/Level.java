@@ -31,18 +31,4 @@ public class Level {
 	public Obstacle[][] getObstacles(){
 		return obstacles;
 	}
-	
-	/**
-	 * This function has been used for testing the loading of Obstacle
-	 * @deprecated
-	 */
-	public void printObs() {
-		String asw = "";
-		for (int i = 0; i<obstacles.length;++i) {
-			for (int j = 0; j<obstacles[i].length;++j)
-				asw += i + ":" + j + ":" + obstacles[i][j].CollisionTop() + " ";
-			asw += '\n';
-		}
-		System.out.println(asw);
-	}
 }

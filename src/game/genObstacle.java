@@ -14,7 +14,7 @@ public class genObstacle {
 	// Static
 	protected static int sWidth = 30;
 	protected static int sHeight = 30;
-	protected static int confLines = Stubi.WINDY/sWidth;
+	protected static int confLines = Stubi.WINDY/sHeight;
 	protected static SpriteSheet ss;
 	protected static String pathAttr = "/conf/obstacleAttributes.csv";
 	protected static SimpleBindings obsMapping;
@@ -111,6 +111,16 @@ public class genObstacle {
 		visible = b;
 	}
 	
+	// Classical methods
+	
+	public String toString() {
+		String asw = "";
+		asw += "Type of Obstacle : " + n + '\n';
+		asw += "Visibility : " + visible + '\n';
+		asw += "Collision Top : " + collisionTop;		
+		return asw;
+	}
+	
 	// Static methods
 	/**
 	 * This function initialize the class by using the level number (to load the right spriteSheet)
@@ -130,7 +140,7 @@ public class genObstacle {
 	}
 	
 	/**
-	 * This method is used to se a mapping between the obstacles and their attributes described in the csv file "obstacleAttributes.csv"
+	 * This method is used to get a mapping between the obstacles and their attributes from the csv file "obstacleAttributes.csv"
 	 */
 	private static void setMapping(){
 		obsMapping = new SimpleBindings();	// creates an arrayList to contain the elements
@@ -140,11 +150,11 @@ public class genObstacle {
 		    while ((line = reader.readLine()) != null) {	// Reading the file line by line
 				String[] split = line.split(";");
 				int ID = Integer.parseInt(split[1]);
-				boolean cT = (split[2]=="1");
-				boolean cB = (split[3]=="1");
-				boolean cS = (split[4]=="1");
-				boolean v = (split[5]=="1");
-				int h = 0;
+				boolean cT = (split[2].equals("1"));
+				boolean cB = (split[3].equals("1"));
+				boolean cS = (split[4].equals("1"));
+				boolean v = (split[5].equals("1"));
+				int h = Integer.parseInt(split[6]);
 				genObstacle tmpGenObs = new genObstacle(ID,cT,cB,cS,v,h);
 		    	obsMapping.put(split[0],tmpGenObs);
 		    }
