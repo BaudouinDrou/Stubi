@@ -72,14 +72,15 @@ public class MyPanel extends JPanel{
     			for (int j = j0; j<obs[i].length && j<j1; ++j) { // j = x coord
     					Obstacle tmp = obs[i][j];
     					if (tmp.visible())
-    						g.drawImage(tmp.getImg(),tmp.getX()-x,tmp.getY(), null);
+    						g.drawImage(tmp.getImg(),tmp.getX()-x,tmp.getY(), null);	// Buffered Image, x coord, y coord, no Image observer
     			}
     		}
     	}
     	// Character Printing
-	    if(stubi  != null){
+	    if(stubi != null){
 	    	stubi.update(System.currentTimeMillis());
-	        g.drawImage(getStubi().getSprite(),stubi.x,stubi.y, null);
+	        g.drawImage(stubi.getSprite(),stubi.x,stubi.y, null);
+	        System.out.println(stubi.x + " " + stubi.y);
 	    }
     	
 	    repaint();

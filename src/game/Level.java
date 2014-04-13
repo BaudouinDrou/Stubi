@@ -7,7 +7,7 @@ public class Level {
 	 */
 	private int length;	// distance to be run by Stubi
 	private Background bg;	// background image
-	private Obstacle[][] obstacles;	// Obastacle within the game
+	private Obstacle[][] obstacles;	// Obstacle within the game
 	
 	/**
 	 * Main constructor

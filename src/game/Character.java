@@ -9,7 +9,8 @@ public class Character {
 	 * This class describe all characters in the game
 	 * For now, only the main character exist and he is the only one implemented in that class
 	 */
-	private Animator display;
+	private Animator walk;
+	private BufferedImage stand;
 	private volatile Level level;
 	
 	public int x = 150, y = 360;	// Starting Position
@@ -23,7 +24,7 @@ public class Character {
 	private int timeFrame;
 	
 	private int jump = 0;
-	private int gravity = 6;
+	private int gravity = 0;
 	
 	private boolean dead = false;
 
@@ -60,7 +61,7 @@ public class Character {
 		ArrayList<BufferedImage> sprites = new ArrayList<BufferedImage>();
 		
 		// Stand position in 0
-		sprites.add(ss.getSprite(0));
+		stand = ss.getSprite(0);
 		
 		// Frame sequence (walk/run) :		
 		if (sequence!=null){
@@ -69,8 +70,8 @@ public class Character {
 			}
 		} // If sequence empty act as no walk
 		
-		display = new Animator(sprites);
-		display.setRefreshTime(timeFrame);
+		walk = new Animator(sprites);
+		walk.setRefreshTime(timeFrame);
 		
 		// Setting time settings
 		this.timeFrame = timeFrame;
@@ -82,16 +83,18 @@ public class Character {
 	
 	// Getters Setters
 	
-	public BufferedImage getSprite(){
-		return display.sprite;
+	public BufferedImage getSprite() {
+		if (moveFactor==0)
+			return stand;
+		return walk.sprite;
 	}
 	
 	public boolean dead() {
 		return dead;
 	}
 	
-	public void setDisplayRefreshTime(long n){
-		display.setRefreshTime(n);
+	public void setwalkRefreshTime(long n){
+		walk.setRefreshTime(n);
 	}
 	
 	/**
@@ -138,19 +141,19 @@ public class Character {
 	// Services
 	
 	public void play(){
-		display.play();
+		walk.play();
 	}
 	
 	public void stop(){
-		display.stop();
+		walk.stop();
 	}
 	
 	public void resume(){
-		display.resume();
+		walk.resume();
 	}
 	
 	public void pause(){
-		display.pause();
+		walk.pause();
 	}
 
 	// Other functions
@@ -159,7 +162,7 @@ public class Character {
 	 * @param time is the current time of the game
 	 */
 	public void update(long time){
-		display.update(time);
+		walk.update(time);
 		if(time - previousTime >= timeFrame) {
 			gravityUpdate();
 			collisionUpdate();
@@ -234,7 +237,7 @@ public class Character {
 	 */
 	private void collisionUpDown(Obstacle[][] obs) {
 		// Testing the boxes below Stubi :
-		int i = (y+height)/Obstacle.getHeight(); // box below the Nbox (one occupied by Stubi's feet) ex : y = 365 => i = 9 (start count at 0 !!!), 10th line
+		int i = (y+height)/Obstacle.getHeight(); // box below the Nbox (one occupied by Stubi's feet)
 		int j = rX/Obstacle.getWidth();
 		int k = rX%Obstacle.getWidth();
 		if (i>=obs.length) {
@@ -246,7 +249,7 @@ public class Character {
 				k += Obstacle.getWidth();
 			}				
 			if (colide)
-				y = i*50 - height -1;	// Put Stubi back in his N box if collision i = 9 => y = 350
+				y = i*Obstacle.getHeight() - height;	// Put Stubi back in his N box if collision
 		}
 	}
 }
