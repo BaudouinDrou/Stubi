@@ -10,7 +10,6 @@ public class Obstacle extends genObstacle {
 	 * This class describe an obstacle
 	 */
 	
-	// Not static
 	private int x,y;	// position in the image
 	
 	/**
@@ -20,9 +19,12 @@ public class Obstacle extends genObstacle {
 	 * @param y is the Y coordinate on the whole level
 	 */	
 	public Obstacle(String key, int x, int y) {
-		if (key == "")
-			key = " ";
-		genObstacle tmp = (genObstacle) genObstacle.obsMapping.get(key);
+		genObstacle tmp;
+		try {
+			tmp = (genObstacle) genObstacle.obsMapping.get(key);
+		} catch (IllegalArgumentException e) {
+			tmp = new genObstacle(-1,false,false,0);	// ID = 0 collision, visible, hurting 
+		}
 		if (tmp != null) {
 			super.n = tmp.getID();
 			super.collisionTop = tmp.CollisionTop();

@@ -20,7 +20,7 @@ public class genObstacle {
 	protected static SimpleBindings obsMapping;
 	
 	// Not static
-	protected int n;		// type of obstacle
+	protected int n;		// type of obstacle (ID on the sprite)
 	protected boolean collisionTop = true;
 	protected boolean collisionBot = true;
 	protected boolean collisionSide = true;
