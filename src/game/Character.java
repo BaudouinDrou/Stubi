@@ -13,7 +13,7 @@ public class Character {
 	private BufferedImage stand;
 	private volatile Level level;
 	
-	public int x = 150, y = 360;	// Starting Position
+	public int x = 150, y = 250;	// Starting Position
 	private int rX = x;		// Real position
 	private int moveFactor = 0;	// Number of pixel to change his position
 	private int speed = 3;
@@ -24,7 +24,7 @@ public class Character {
 	private int timeFrame;
 	
 	private int jump = 0;
-	private int gravity = 0;
+	private int gravity = 6;
 	
 	private boolean dead = false;
 

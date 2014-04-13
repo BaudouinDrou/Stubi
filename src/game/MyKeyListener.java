@@ -24,6 +24,7 @@ public class MyKeyListener implements KeyListener{
 	 */
 	public void keyPressed(KeyEvent event) {
 		int code = event.getKeyCode();
+		Character stubi = pan.getStubi();
 		boolean nonRepeat = (code != currentKey);
 		currentKey = code;
 		switch (code) {
@@ -31,25 +32,25 @@ public class MyKeyListener implements KeyListener{
 		case 81:	// 'q'
 			// Action start go left
 			if (nonRepeat)
-				pan.getStubi().setMove('l');
+				stubi.setMove('l');
 			break;
 		case 38:	// up arrow
 		case 90:	// 'z'
 		case 32:	// ' '
 			// Action start jump
-			pan.getStubi().setMove('j');
+			stubi.setMove('j');
 			break;
 		case 39:	// '->'
 		case 68:	// 'd'
 			// Action start go right
 			if (nonRepeat)
-				pan.getStubi().setMove('r');
+				stubi.setMove('r');
 			break;
 		case 40:	// down arrow
 		case 83:	// 's'
 			// Action start crawling
 			if (nonRepeat)
-				pan.getStubi().setCrawling(true);
+				stubi.setCrawling(true);
 			break;
 		case 27:
 			// Action when "esc" pressed
@@ -73,22 +74,23 @@ public class MyKeyListener implements KeyListener{
 	 */
 	public void keyReleased(KeyEvent event) {
 		int code = event.getKeyCode();
+		Character stubi = pan.getStubi();
 		if (code==currentKey)
 			currentKey = -1;
 		switch (code) {
 		case 37:
 		case 81:
-			pan.getStubi().setMove('s');	// stand
+			stubi.setMove('s');	// stand
 			// Action end go left
 			break;
 		case 39:
 		case 68:
-			pan.getStubi().setMove('s');	// stand
+			stubi.setMove('s');	// stand
 			// Action end go right
 			break;
 		case 40:
 		case 83:
-			pan.getStubi().setCrawling(false);
+			stubi.setCrawling(false);
 			// Action end crawling
 			break;
 		default:

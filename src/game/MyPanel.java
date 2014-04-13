@@ -80,7 +80,6 @@ public class MyPanel extends JPanel{
 	    if(stubi != null){
 	    	stubi.update(System.currentTimeMillis());
 	        g.drawImage(stubi.getSprite(),stubi.x,stubi.y, null);
-	        System.out.println(stubi.x + " " + stubi.y);
 	    }
     	
 	    repaint();
