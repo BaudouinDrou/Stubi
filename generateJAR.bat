@@ -1,11 +1,11 @@
 @ECHO ON
 
 javac src/game/*.java
-move Y src\game\*.class META-INF\game\
-copy src\img\*.png META-INF\img\ 
-copy src\conf\ META-INF\conf\
+move Y src\game\*.class tmp\game\
+copy src\img\*.png tmp\img\ 
+copy src\conf\ tmp\conf\
 
-cd META-INF
+cd tmp
 jar cvfm "../Stubi.jar" MANIFEST.MF .
 
 @PAUSE

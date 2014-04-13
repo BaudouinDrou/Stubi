@@ -65,10 +65,10 @@ public class Obstacle extends genObstacle {
 	 * @return a bi-dimensional array of Obstacle 
 	*/
 	public static Obstacle[][] readConfCsv(int n){
-		String path = "/conf/confLevel"+ n +".csv";		
+		String path = "conf/confLevel"+ n +".csv";		
 		Obstacle[][] obs = new Obstacle[Obstacle.confLines][];
 		
-		InputStreamReader isReader= new InputStreamReader(Obstacle.class.getResourceAsStream(path));
+		InputStreamReader isReader= new InputStreamReader(Obstacle.class.getClassLoader().getResourceAsStream(path));
 		try (BufferedReader reader = new BufferedReader(isReader)) {
 		    String line = null;
 		    int j = 0;	// y coord

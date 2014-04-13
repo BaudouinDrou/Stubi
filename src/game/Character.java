@@ -170,12 +170,14 @@ public class Character {
 			x += moveFactor;
 			rX += moveFactor;
 			
-			// Right side limit for the character
+			// Right side limit for the character BUGGED
 			if (x+width>Stubi.WINDX-250) {
 				if (!level.getBackground().update(moveFactor))
 					x = Stubi.WINDX-250-width;
-				else // end of the lvl
-					x = Math.min(Stubi.WINDX-width,x);
+				else {// end of the lvl, stop moving forward
+						x = Stubi.WINDX-width-250;
+						rX -= moveFactor;
+				}
 			}
 			if (rX+width>level.getLength()){
 				rX = level.getLength()-width;

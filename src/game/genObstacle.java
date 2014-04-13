@@ -16,7 +16,7 @@ public class genObstacle {
 	protected static int sHeight = 30;
 	protected static int confLines = Stubi.WINDY/sHeight;
 	protected static SpriteSheet ss;
-	protected static String pathAttr = "/conf/obstacleAttributes.csv";
+	protected static String pathAttr = "conf/obstacleAttributes.csv";
 	protected static SimpleBindings obsMapping;
 	
 	// Not static
@@ -144,7 +144,7 @@ public class genObstacle {
 	 */
 	private static void setMapping(){
 		obsMapping = new SimpleBindings();	// creates an arrayList to contain the elements
-		InputStreamReader isReader= new InputStreamReader(Obstacle.class.getResourceAsStream(pathAttr));
+		InputStreamReader isReader= new InputStreamReader(Obstacle.class.getClassLoader().getResourceAsStream(pathAttr));
 		try (BufferedReader reader = new BufferedReader(isReader)) {
 		    String line = reader.readLine();	// read the first line
 		    while ((line = reader.readLine()) != null) {	// Reading the file line by line
