@@ -23,7 +23,7 @@ public class Character {
 	private long previousTime = 0;
 	private int timeFrame;
 	
-	private int jump = 0;
+	private int jump = -1; // -1 mean in the air
 	private int gravity = 6;
 	
 	private boolean dead = false;
@@ -198,9 +198,10 @@ public class Character {
 	
 	/**
 	 * This function is updating the gravity factor based on the character (jumping or not)
+	 * It is based on {@link #jump} & {@link #gravity}
 	 */
 	private void gravityUpdate(){
-		if (jump != 0) {
+		if (jump > 0) {
 			// Jump case
 			if (jump < 15) {	// Go higher
 				y -= gravity;
@@ -217,7 +218,7 @@ public class Character {
 				y += gravity;
 				++jump;
 			} else {
-				jump = 0;				
+				jump = -1;				
 			}
 		} else {
 			// Gravity :
@@ -230,18 +231,28 @@ public class Character {
 	 */
 	private void collisionUpdate() {
 		Obstacle[][] obs = level.getObstacles();
-		collisionUpDown(obs);
+		int i = y/Obstacle.getHeight(); // Stubi's head position in grid
+		int j = rX/Obstacle.getWidth(); // Stubi's left side position in the grid
+		int k = rX%Obstacle.getWidth(); // Stubi's x coord int the (i,j) block in the grid
+		boolean colideBad = true;
+		colideBad &= collisionFeet(obs,j,k);
+		colideBad &= collisionHead(obs,i,j,k);
+		// collisionSide(obs,i,j,k);
+		if (colideBad)
+			System.out.println("BAD COLLISION");
 	}
 	
+	
 	/**
-	 * This function is testing the collision with the below obstacles
+	 * This function is testing the collision with the below obstacles, helping {@link #collisionUpdate()}
 	 * @param obs is an array of array containing Obstacle
+	 * @param j correspond to the x coord of the first box in contact with Stubi
+	 * @param k is the position within the box #j
+	 * @return a boolean if there is collision or not
 	 */
-	private void collisionUpDown(Obstacle[][] obs) {
+	private boolean collisionFeet(Obstacle[][] obs, int j, int k) {
 		// Testing the boxes below Stubi :
 		int i = (y+height)/Obstacle.getHeight(); // box below the Nbox (one occupied by Stubi's feet)
-		int j = rX/Obstacle.getWidth();
-		int k = rX%Obstacle.getWidth();
 		if (i>=obs.length) {
 			dead = true;
 		} else {
@@ -250,8 +261,74 @@ public class Character {
 				colide |= obs[i][++j].CollisionTop();
 				k += Obstacle.getWidth();
 			}				
-			if (colide)
+			if (colide) {
+				jump = 0;
 				y = i*Obstacle.getHeight() - height;	// Put Stubi back in his N box if collision
+			}
+			return colide;
 		}
+		return false;
+	}
+	
+	/**
+	 * This method is used to know if there is a collision at the head of the character and if yes, put him back in place, helping {@link #collisionUpdate()}
+	 * @param obs is the array containing obstacles
+	 * @param i is the y coord of Stubi's head in the grid
+	 * @param j is the x coord of Stubi's head
+	 * @param k is the x position inside the box describe by the grid
+	 * @return a boolean that say if Stubi colide or not
+	 */
+	private boolean collisionHead(Obstacle[][] obs,int i, int j, int k) {
+		boolean colide = obs[i][j].CollisionBot();	// box at his head
+		while (k<width){	// try all boxes on Stubi's head line
+			colide |= obs[i][++j].CollisionBot();
+			k += Obstacle.getWidth();
+		}				
+		if (colide) {
+			y = (i+1)*Obstacle.getHeight();	// Put Stubi back in his N box if collision
+		}
+		return colide;		
+	}
+	
+	/**
+	 * This method deals with the left and right collisions that could occur while playing, helping {@link #collisionUpdate()}
+	 * @param obs is the array containing all the obstacles we'll test
+	 * @param i is the Y coordinate in the grid
+	 * @param j is the X coordinate in the grid
+	 * @param k is the X coordinate within the box
+	 * @return a boolean that say if there has been a collision on Stubi's side
+	 */
+	private boolean collisionSide(Obstacle[][] obs,int i, int j, int k) {
+		int l  = y%Obstacle.getHeight();
+		// Left side 
+		boolean colide = collisionSideHelp(obs,i,j,l,1);
+		while (k<width){	// move to right side
+			k += Obstacle.getWidth();
+			++j;
+		}
+		// Right side
+		colide |= collisionSideHelp(obs,i,j,l,-1);
+		return colide;
+	}
+	
+	/**
+	 * This method is here to help the function {@link #collisionSide(Obstacle[][], int, int, int)} to factorize some work
+	 * @param obs is the array containing all the obstacles we'll test
+	 * @param i is the Y coordinate in the grid
+	 * @param j is the X coordinate in the grid
+	 * @param l is the Y coordinate within the grid
+	 * @param move is the movement to apply in case of collision (-1 = to right, +1 = to left)
+	 * @return
+	 */
+	private boolean collisionSideHelp(Obstacle[][] obs,int i, int j, int l,int move) {
+		boolean colide = obs[i][j].CollisionBot();
+		while (l<height){
+			colide |= obs[++i][j].CollisionBot();
+			l += Obstacle.getHeight();
+		}
+		if (colide) {
+			rX = j*Obstacle.getWidth() + move;	// Put Stubi back in his N box if collision
+		}
+		return colide;
 	}
 }
