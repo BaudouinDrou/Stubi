@@ -60,28 +60,15 @@ public class MyPanel extends JPanel{
 	 * @param g is a Graphics object used by the paint method
 	 */
     public void paintComponent(Graphics g){
-	    // Level Printing
-    	if (level!=null){
-    		Background bg = level.getBackground();
-    		g.drawImage(bg.getImg(), 0, 0, null);
-    		int x = bg.getX();
-    		int j0 = x/genObstacle.sWidth;
-    		int j1 = j0 + Stubi.WINDX/genObstacle.sWidth + 1;
-    		Obstacle[][] obs = level.getObstacles();
-    		for (int i = 0; i<obs.length;++i){	// i = y coord
-    			for (int j = j0; j<obs[i].length && j<j1; ++j) { // j = x coord
-    					Obstacle tmp = obs[i][j];
-    					if (tmp.visible())
-    						g.drawImage(tmp.getImg(),tmp.getX()-x,tmp.getY(), null);	// Buffered Image, x coord, y coord, no Image observer
-    			}
-    		}
-    	}
-    	// Character Printing
-	    if(stubi != null){
-	    	stubi.update(System.currentTimeMillis());
-	        g.drawImage(stubi.getSprite(),stubi.x,stubi.y, null);
-	    }
-    	
+    	update();
+	    level.print(g,stubi.x);
+	    stubi.print(g);
 	    repaint();
+    }
+    
+    public void update() {
+    	int x = stubi.x;
+    	x = x / level.scale;
+    	level.getBackground().setX(x);
     }
 }

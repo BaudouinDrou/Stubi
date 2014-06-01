@@ -1,4 +1,5 @@
 package game;
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,7 +15,6 @@ public class Character {
 	private volatile Level level;
 	
 	public int x = 150, y = 250;	// Starting Position
-	private int rX = x;		// Real position
 	private int moveFactor = 0;	// Number of pixel to change his position
 	private int speed = 3;
 	private boolean crawl = false;
@@ -93,7 +93,7 @@ public class Character {
 		return dead;
 	}
 	
-	public void setwalkRefreshTime(long n){
+	public void setWalkRefreshTime(long n){
 		walk.setRefreshTime(n);
 	}
 	
@@ -163,32 +163,17 @@ public class Character {
 	 */
 	public void update(long time){
 		walk.update(time);
+		level.getBackground().setX(x);
 		if(time - previousTime >= timeFrame) {
 			gravityUpdate();
 			collisionUpdate();
 			// movement
 			x += moveFactor;
-			rX += moveFactor;
-			
-			// Right side limit for the character BUGGED
-			if (x+width>Stubi.WINDX-250) {
-				if (!level.getBackground().update(moveFactor))
-					x = Stubi.WINDX-250-width;
-				else {// end of the lvl, stop moving forward
-						x = Stubi.WINDX-width-250;
-						rX -= moveFactor;
-				}
+			if (x+width>level.getLength()){
+				x = level.getLength()-width;
 			}
-			if (rX+width>level.getLength()){
-				rX = level.getLength()-width;
-			}
-			// Left side limit for the character :
-			if (x<50) {
-				x = 50;
-				level.getBackground().update(moveFactor);
-			}
-			if (rX<50) {
-				rX = 50;
+			if (x<0) {
+				x = 0;
 			}
 			// Roof limit
 			if (y<0)
@@ -232,12 +217,12 @@ public class Character {
 	private void collisionUpdate() {
 		Obstacle[][] obs = level.getObstacles();
 		int i = y/Obstacle.getHeight(); // Stubi's head position in grid
-		int j = rX/Obstacle.getWidth(); // Stubi's left side position in the grid
-		int k = rX%Obstacle.getWidth(); // Stubi's x coord int the (i,j) block in the grid
+		int j = x/Obstacle.getWidth(); // Stubi's left side position in the grid
+		int k = x%Obstacle.getWidth(); // Stubi's x coord int the (i,j) block in the grid
 		boolean colideBad = true;
 		colideBad &= collisionFeet(obs,j,k);
 		colideBad &= collisionHead(obs,i,j,k);
-		// collisionSide(obs,i,j,k);
+		collisionSide(obs,i,j,k);
 		if (colideBad)
 			System.out.println("BAD COLLISION");
 	}
@@ -327,8 +312,17 @@ public class Character {
 			l += Obstacle.getHeight();
 		}
 		if (colide) {
-			rX = j*Obstacle.getWidth() + move;	// Put Stubi back in his N box if collision
+			System.out.println(x);
+//			x += Obstacle.getWidth() * move;
+			x -= moveFactor;	// Put Stubi back in his N box if collision
 		}
 		return colide;
+	}
+	
+	public int print(Graphics g) {
+	   	update(System.currentTimeMillis());
+	   	int xLag = x - 150;
+	   	g.drawImage(getSprite(),0,y, null);
+	   	return xLag;
 	}
 }

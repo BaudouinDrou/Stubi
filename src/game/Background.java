@@ -34,8 +34,17 @@ public class Background {
 		return x;
 	}
 	
+	public int getXMax() {
+		return xMax;
+	}
+	
 	public int getWidth(){
 		return width;
+	}
+	
+	public void setX(int Rx) {
+    	x = Math.max(Rx, 0);
+    	x = Math.min(xMax, Rx);
 	}
 	
 	/**
