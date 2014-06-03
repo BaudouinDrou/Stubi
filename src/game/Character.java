@@ -245,7 +245,7 @@ public class Character {
 			while (k<width){	// try all boxes below Stubi
 				colide |= obs[i][++j].CollisionTop();
 				k += Obstacle.getWidth();
-			}				
+			}
 			if (colide) {
 				jump = 0;
 				y = i*Obstacle.getHeight() - height;	// Put Stubi back in his N box if collision
@@ -319,10 +319,10 @@ public class Character {
 		return colide;
 	}
 	
-	public int print(Graphics g) {
+	public int print(Graphics g, int lag) {
 	   	update(System.currentTimeMillis());
-	   	int xLag = x - 150;
-	   	g.drawImage(getSprite(),0,y, null);
+	   	int xLag = x - lag;
+	   	g.drawImage(getSprite(),lag,y, null);
 	   	return xLag;
 	}
 }

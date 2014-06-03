@@ -38,16 +38,18 @@ public class Level {
 	/**
 	 * This method is used to print the level on the graphic g
 	 * @param g is the graph on which we print the level
+	 * @param x is the coordinate of the main character
+	 * @param lag is the lag with the main character.
 	 */
-	public void print(Graphics g, int x){
+	public void print(Graphics g, int x, int lag){
 		g.drawImage(bg.getImg(), 0, 0, null);
-		int j0 = x/genObstacle.sWidth;
+		int j0 = Math.max(0,(x-lag)/genObstacle.sWidth);	// part of the grid to draw the obstacles j>0 otherwise array out of bounds
 		int j1 = j0 + Stubi.WINDX/genObstacle.sWidth + 1;
 		for (int i = 0; i<obstacles.length;++i){	// i = y coord
 			for (int j = j0; j<obstacles[i].length && j<j1; ++j) { // j = x coord
 					Obstacle tmp = obstacles[i][j];
 					if (tmp.visible())
-						g.drawImage(tmp.getImg(),tmp.getX()-x,tmp.getY(), null);	// Buffered Image, x coord, y coord, no Image observer
+						g.drawImage(tmp.getImg(),tmp.getX()-x+lag,tmp.getY(), null);	// Buffered Image, x coord, y coord, no Image observer
 			}
 		}
 	}

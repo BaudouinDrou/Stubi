@@ -60,13 +60,14 @@ public class MyPanel extends JPanel{
 	 * @param g is a Graphics object used by the paint method
 	 */
     public void paintComponent(Graphics g){
-    	update();
-	    level.print(g,stubi.x);
-	    stubi.print(g);
+    	int lag = 150;
+    	update(lag);
+	    level.print(g,stubi.x,lag);
+	    stubi.print(g,lag);
 	    repaint();
     }
     
-    public void update() {
+    public void update(int lag) {
     	int x = stubi.x;
     	x = x / level.scale;
     	level.getBackground().setX(x);
