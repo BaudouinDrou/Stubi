@@ -125,12 +125,9 @@ public class Character {
 			if (x+width>level.getLength()){
 				x = level.getLength()-width;
 			}
-			if (x<0) {
+			if (x<0) { // begin lock
 				x = 0;
 			}
-			// Roof limit
-			if (y<0)
-				y = 0;
 		}
 	}
 	
@@ -217,6 +214,8 @@ public class Character {
 	 * @return a boolean that say if Stubi colide or not
 	 */
 	public boolean collisionHead(Obstacle[][] obs,int i, int j, int k) {
+		if (i < 0)
+			return false;
 		boolean colide = obs[i][j].CollisionBot();	// box at his head
 		while (k<width){	// try all boxes on Stubi's head line
 			colide |= obs[i][++j].CollisionBot();
@@ -259,10 +258,12 @@ public class Character {
 	 * @return
 	 */
 	public boolean collisionSideHelp(Obstacle[][] obs,int i, int j, int l,int move) {
-		boolean colide = obs[i][j].CollisionBot();
+		boolean colide = obs[Math.max(i,0)][j].CollisionBot(); // In case of jump above the roof top limit.
 		while (l<height){
-			colide |= obs[++i][j].CollisionBot();
+			if (i>=0)
+				colide |= obs[i][j].CollisionBot();
 			l += Obstacle.getHeight();
+			++i;
 		}
 		if (colide) {
 			System.out.println(x);
