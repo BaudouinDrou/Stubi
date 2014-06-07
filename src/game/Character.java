@@ -10,28 +10,22 @@ public class Character {
 	 * This class describe all characters in the game
 	 * For now, only the main character exist and he is the only one implemented in that class
 	 */
-	private Animator walk;
-	private BufferedImage stand;
-	private volatile Level level;
+	public Animator walk;
+	public BufferedImage stand;
+	public volatile Level level;
 	
 	public int x = 150, y = 250;	// Starting Position
-	private int moveFactor = 0;	// Number of pixel to change his position
-	private int speed = 3;
-	private boolean crawl = false;
-	private int width, height;
+	public int moveFactor = 0;	// Number of pixel to change his position
+	public int speed = 3;
+	public int width, height;
 	
-	private long previousTime = 0;
-	private int timeFrame;
+	public long previousTime = 0;
+	public int timeFrame;
 	
-	private int jump = -1; // -1 mean in the air
-	private int gravity = 6;
+	public int jump = -1; // -1 mean in the air
+	public int gravity = 6;
 	
-	private boolean dead = false;
-
-	// Constructors
-	public Character(String path, Level lvl){
-		this(path, 50, 100, null, lvl);
-	}
+	public boolean dead = false;
 	
 	public Character(String path, int sWidth, int sHeight, int[]sequence, Level lvl){
 		this(path, sWidth, sHeight,sequence,MyPanel.gameTimeFrame, lvl);
@@ -97,47 +91,6 @@ public class Character {
 		walk.setRefreshTime(n);
 	}
 	
-	/**
-	 * This function is called by MyKeyListener to set a move to the character
-	 * @param c is the kind of move to set to the character
-	 */
-	public void setMove(char c) {
-		switch (c){
-		case 'r':	// right
-			moveFactor = speed;
-			if (crawl)
-				moveFactor /= 2;
-			play();
-			break;
-		case 'l':	// left
-			moveFactor = -speed;
-			if (crawl)
-				moveFactor /= 2;
-			play();
-			break;
-		case 's':	// stand
-			moveFactor = 0;
-			stop();
-			break;
-		case 'j':	// jump
-			if (jump == 0)	// jump only if the character is not previously jumping
-				jump = 1;
-			break;
-		default:
-			moveFactor = 0;
-			stop();
-			break;
-		}
-	}
-	
-	/**
-	 * This function set if the character is crawling or not
-	 * @param b is the boolean value (crawling or not)
-	 */
-	public void setCrawling(boolean b){
-		crawl = b;
-	}
-	
 	// Services
 	
 	public void play(){
@@ -185,7 +138,7 @@ public class Character {
 	 * This function is updating the gravity factor based on the character (jumping or not)
 	 * It is based on {@link #jump} & {@link #gravity}
 	 */
-	private void gravityUpdate(){
+	public void gravityUpdate(){
 		if (jump > 0) {
 			// Jump case
 			if (jump < 15) {	// Go higher
@@ -214,17 +167,22 @@ public class Character {
 	/**
 	 * This function is applying collision with obstacles, resetting the character at his right place
 	 */
-	private void collisionUpdate() {
+	public void collisionUpdate() {
 		Obstacle[][] obs = level.getObstacles();
 		int i = y/Obstacle.getHeight(); // Stubi's head position in grid
 		int j = x/Obstacle.getWidth(); // Stubi's left side position in the grid
 		int k = x%Obstacle.getWidth(); // Stubi's x coord int the (i,j) block in the grid
 		boolean colideBad = true;
-		colideBad &= collisionFeet(obs,j,k);
-		colideBad &= collisionHead(obs,i,j,k);
-		collisionSide(obs,i,j,k);
-		if (colideBad)
-			System.out.println("BAD COLLISION");
+		if (i+(height/Obstacle.getHeight())+ 1>=obs.length) {	// Out of the drawing.
+			dead = true;
+			System.out.println("Outside the box");
+		} else {
+			colideBad &= collisionFeet(obs,j,k);
+			colideBad &= collisionHead(obs,i,j,k);
+			collisionSide(obs,i,j,k);
+			if (colideBad)
+				System.out.println("BAD COLLISION");
+		}
 	}
 	
 	
@@ -235,24 +193,19 @@ public class Character {
 	 * @param k is the position within the box #j
 	 * @return a boolean if there is collision or not
 	 */
-	private boolean collisionFeet(Obstacle[][] obs, int j, int k) {
+	public boolean collisionFeet(Obstacle[][] obs, int j, int k) {
 		// Testing the boxes below Stubi :
 		int i = (y+height)/Obstacle.getHeight(); // box below the Nbox (one occupied by Stubi's feet)
-		if (i>=obs.length) {
-			dead = true;
-		} else {
-			boolean colide = obs[i][j].CollisionTop();	// box below his left foot
-			while (k<width){	// try all boxes below Stubi
-				colide |= obs[i][++j].CollisionTop();
-				k += Obstacle.getWidth();
-			}
-			if (colide) {
-				jump = 0;
-				y = i*Obstacle.getHeight() - height;	// Put Stubi back in his N box if collision
-			}
-			return colide;
+		boolean colide = obs[i][j].CollisionTop();	// box below his left foot
+		while (k<width){	// try all boxes below Stubi
+			colide |= obs[i][++j].CollisionTop();
+			k += Obstacle.getWidth();
 		}
-		return false;
+		if (colide) {
+			jump = 0;
+			y = i*Obstacle.getHeight() - height;	// Put Stubi back in his N box if collision
+		}
+		return colide;
 	}
 	
 	/**
@@ -263,7 +216,7 @@ public class Character {
 	 * @param k is the x position inside the box describe by the grid
 	 * @return a boolean that say if Stubi colide or not
 	 */
-	private boolean collisionHead(Obstacle[][] obs,int i, int j, int k) {
+	public boolean collisionHead(Obstacle[][] obs,int i, int j, int k) {
 		boolean colide = obs[i][j].CollisionBot();	// box at his head
 		while (k<width){	// try all boxes on Stubi's head line
 			colide |= obs[i][++j].CollisionBot();
@@ -283,7 +236,7 @@ public class Character {
 	 * @param k is the X coordinate within the box
 	 * @return a boolean that say if there has been a collision on Stubi's side
 	 */
-	private boolean collisionSide(Obstacle[][] obs,int i, int j, int k) {
+	public boolean collisionSide(Obstacle[][] obs,int i, int j, int k) {
 		int l  = y%Obstacle.getHeight();
 		// Left side 
 		boolean colide = collisionSideHelp(obs,i,j,l,1);
@@ -305,7 +258,7 @@ public class Character {
 	 * @param move is the movement to apply in case of collision (-1 = to right, +1 = to left)
 	 * @return
 	 */
-	private boolean collisionSideHelp(Obstacle[][] obs,int i, int j, int l,int move) {
+	public boolean collisionSideHelp(Obstacle[][] obs,int i, int j, int l,int move) {
 		boolean colide = obs[i][j].CollisionBot();
 		while (l<height){
 			colide |= obs[++i][j].CollisionBot();

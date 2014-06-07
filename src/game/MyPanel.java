@@ -10,7 +10,7 @@ public class MyPanel extends JPanel{
 	 * This class contain the JPanel where the game will take place
 	 */
 	private static final long serialVersionUID = 1L;
-	private volatile Character stubi;
+	private volatile MainCharacter stubi;
 	private volatile Level level;
 	
 	static int gameTimeFrame = 50;
@@ -26,14 +26,14 @@ public class MyPanel extends JPanel{
 		genObstacle.init(lvl);
 		int[] seq = {1,2,3,4,5,4,3,2};
 		level = new Level(lvl);
-		stubi = new Character("img/perso-sprite.png",90,100,seq,gameTimeFrame,level);
+		stubi = new MainCharacter("img/perso-sprite.png",90,100,seq,gameTimeFrame,level);
 	}
 	
 	/**
 	 * This method give the main character which is included inside the JPanel
 	 * @return the main Character which name is Stubi
 	 */
-	public Character getStubi(){
+	public MainCharacter getStubi(){
 		return stubi;
 	}
 	

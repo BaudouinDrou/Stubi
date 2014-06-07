@@ -24,7 +24,7 @@ public class MyKeyListener implements KeyListener{
 	 */
 	public void keyPressed(KeyEvent event) {
 		int code = event.getKeyCode();
-		Character stubi = pan.getStubi();
+		MainCharacter stubi = pan.getStubi();
 		boolean nonRepeat = (code != currentKey);
 		currentKey = code;
 		switch (code) {
@@ -74,7 +74,7 @@ public class MyKeyListener implements KeyListener{
 	 */
 	public void keyReleased(KeyEvent event) {
 		int code = event.getKeyCode();
-		Character stubi = pan.getStubi();
+		MainCharacter stubi = pan.getStubi();
 		if (code==currentKey)
 			currentKey = -1;
 		switch (code) {
