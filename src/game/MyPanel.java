@@ -60,7 +60,7 @@ public class MyPanel extends JPanel{
 	 * @param g is a Graphics object used by the paint method
 	 */
     public void paintComponent(Graphics g){
-    	int lag = 150;
+    	int lag = stubi.lag;
     	update(lag);
 	    level.print(g,stubi.x,lag);
 	    stubi.print(g,lag);

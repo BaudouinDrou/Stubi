@@ -44,7 +44,7 @@ public class Level {
 	public void print(Graphics g, int x, int lag){
 		g.drawImage(bg.getImg(), 0, 0, null);
 		int j0 = (x-lag)/genObstacle.sWidth -1;	// part of the grid to draw the obstacles (j0<0 special case)
-		int j1 = j0 + Stubi.WINDX/genObstacle.sWidth + 1;
+		int j1 = j0 + Stubi.WINDX/genObstacle.sWidth + 2;
 		for (int i = 0; i<obstacles.length;++i){	// i = y coord
 			for (int j = j0; j<obstacles[i].length && j<=j1; ++j) { // j = x coord
 				Obstacle tmp;

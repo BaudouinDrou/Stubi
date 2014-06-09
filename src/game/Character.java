@@ -14,18 +14,19 @@ public class Character {
 	public BufferedImage stand;
 	public volatile Level level;
 	
-	public int x = 150, y = 250;	// Starting Position
-	public int moveFactor = 0;	// Number of pixel to change his position
-	public int speed = 3;
-	public int width, height;
+	protected int x = 150, y = 250;	// Starting Position
+	protected int speed = 3;
+	protected int width, height;
 	
-	public long previousTime = 0;
-	public int timeFrame;
+	protected long previousTime = 0;
+	protected int timeFrame;
+
+	protected int moveX = 0;	// Number of pixel to change his position on x
+	protected int moveY = 6;	// Number of pixel to change his position on y
+	protected int jump = -1; 	// -1 mean in the air
+	protected boolean inAir = true;
 	
-	public int jump = -1; // -1 mean in the air
-	public int gravity = 6;
-	
-	public boolean dead = false;
+	protected boolean dead = false;
 	
 	public Character(String path, int sWidth, int sHeight, int[]sequence, Level lvl){
 		this(path, sWidth, sHeight,sequence,MyPanel.gameTimeFrame, lvl);
@@ -78,7 +79,7 @@ public class Character {
 	// Getters Setters
 	
 	public BufferedImage getSprite() {
-		if (moveFactor==0)
+		if (moveX==0)
 			return stand;
 		return walk.sprite;
 	}
@@ -118,46 +119,53 @@ public class Character {
 		walk.update(time);
 		level.getBackground().setX(x);
 		if(time - previousTime >= timeFrame) {
-			gravityUpdate();
+			// movement over y and x
+			upY();
+			upX();
 			collisionUpdate();
-			// movement
-			x += moveFactor;
-			if (x+width>level.getLength()){
-				x = level.getLength()-width;
-			}
-			if (x<0) { // begin lock
-				x = 0;
-			}
 		}
 	}
 	
 	/**
-	 * This function is updating the gravity factor based on the character (jumping or not)
-	 * It is based on {@link #jump} & {@link #gravity}
+	 * This function is updating the Y position based on the character (jumping or not)
+	 * It is based on {@link #jump} & {@link #moveY}
 	 */
-	public void gravityUpdate(){
+	public void upY(){
 		if (jump > 0) {
 			// Jump case
 			if (jump < 15) {	// Go higher
-				y -= gravity;
+				y -= moveY;
 				++jump;
 			} else if (jump < 30) {	// Go higher more slowly
-				y -= gravity/2;
+				y -= moveY/2;
 				++jump;				
 			} else if (jump == 30) {	// Stand
 				++jump;				
 			} else if (jump <= 45) {	// Start reaching the ground
-				y += gravity/2;
+				y += moveY/2;
 				++jump;
 			} else if (jump <60) {	// Start reaching the ground
-				y += gravity;
+				y += moveY;
 				++jump;
 			} else {
 				jump = -1;				
 			}
 		} else {
-			// Gravity :
-			y += gravity;
+			// Only gravity :
+			y += moveY;
+		}
+	}
+	
+	/**
+	 * This method update x depending on the previous data we have about it.
+	 */
+	public void upX(){
+		x += moveX;
+		if (x+width>level.getLength()){
+			x = level.getLength()-width;
+		}
+		if (x<0) { // begin lock
+			x = 0;
 		}
 	}
 	
@@ -169,15 +177,15 @@ public class Character {
 		int i = y/Obstacle.getHeight(); // Stubi's head position in grid
 		int j = x/Obstacle.getWidth(); // Stubi's left side position in the grid
 		int k = x%Obstacle.getWidth(); // Stubi's x coord int the (i,j) block in the grid
-		boolean colideBad = true;
+		boolean collideBad = true;
 		if (i+(height/Obstacle.getHeight())+ 1>=obs.length) {	// Out of the drawing.
 			dead = true;
 			System.out.println("Outside the box");
 		} else {
-			colideBad &= collisionFeet(obs,j,k);
-			colideBad &= collisionHead(obs,i,j,k);
 			collisionSide(obs,i,j,k);
-			if (colideBad)
+			collideBad &= collisionFeet(obs,j,k);
+			collideBad &= collisionHead(obs,i,j,k);
+			if (collideBad)
 				System.out.println("BAD COLLISION");
 		}
 	}
@@ -193,16 +201,21 @@ public class Character {
 	public boolean collisionFeet(Obstacle[][] obs, int j, int k) {
 		// Testing the boxes below Stubi :
 		int i = (y+height)/Obstacle.getHeight(); // box below the Nbox (one occupied by Stubi's feet)
-		boolean colide = obs[i][j].CollisionTop();	// box below his left foot
+		if (i<0) {
+			System.out.println("Above the box");
+			return false;
+		}
+		boolean collide = obs[i][j].CollisionTop();	// box below his left foot
 		while (k<width){	// try all boxes below Stubi
-			colide |= obs[i][++j].CollisionTop();
+			collide |= obs[i][++j].CollisionTop();
 			k += Obstacle.getWidth();
 		}
-		if (colide) {
-			jump = 0;
+		if (collide) {
+			inAir = false;
 			y = i*Obstacle.getHeight() - height;	// Put Stubi back in his N box if collision
-		}
-		return colide;
+		} else
+			inAir = true;
+		return collide;
 	}
 	
 	/**
@@ -211,20 +224,20 @@ public class Character {
 	 * @param i is the y coord of Stubi's head in the grid
 	 * @param j is the x coord of Stubi's head
 	 * @param k is the x position inside the box describe by the grid
-	 * @return a boolean that say if Stubi colide or not
+	 * @return a boolean that say if Stubi collide or not
 	 */
 	public boolean collisionHead(Obstacle[][] obs,int i, int j, int k) {
 		if (i < 0)
 			return false;
-		boolean colide = obs[i][j].CollisionBot();	// box at his head
+		boolean collide = obs[i][j].CollisionBot();	// box at his head
 		while (k<width){	// try all boxes on Stubi's head line
-			colide |= obs[i][++j].CollisionBot();
+			collide |= obs[i][++j].CollisionBot();
 			k += Obstacle.getWidth();
 		}				
-		if (colide) {
+		if (collide) {
 			y = (i+1)*Obstacle.getHeight();	// Put Stubi back in his N box if collision
 		}
-		return colide;		
+		return collide;		
 	}
 	
 	/**
@@ -238,14 +251,14 @@ public class Character {
 	public boolean collisionSide(Obstacle[][] obs,int i, int j, int k) {
 		int l  = y%Obstacle.getHeight();
 		// Left side 
-		boolean colide = collisionSideHelp(obs,i,j,l,1);
+		boolean collide = collisionSideHelp(obs,i,j,l,1);
 		while (k<width){	// move to right side
 			k += Obstacle.getWidth();
 			++j;
 		}
 		// Right side
-		colide |= collisionSideHelp(obs,i,j,l,-1);
-		return colide;
+		collide |= collisionSideHelp(obs,i,j,l,-1);
+		return collide;
 	}
 	
 	/**
@@ -255,28 +268,28 @@ public class Character {
 	 * @param j is the X coordinate in the grid
 	 * @param l is the Y coordinate within the grid
 	 * @param move is the movement to apply in case of collision (-1 = to right, +1 = to left)
-	 * @return
+	 * @return a boolean that say if it has been colliding on the side
 	 */
 	public boolean collisionSideHelp(Obstacle[][] obs,int i, int j, int l,int move) {
-		boolean colide = obs[Math.max(i,0)][j].CollisionBot(); // In case of jump above the roof top limit.
+		boolean collide = obs[Math.max(i,0)][j].CollisionBot(); // In case of jump above the roof top limit.
+		if ((y+height)/Obstacle.getHeight()<0)
+			return false;	// feet above the roof ^^
 		while (l<height){
 			if (i>=0)
-				colide |= obs[i][j].CollisionBot();
+				collide |= obs[i][j].CollisionBot();
 			l += Obstacle.getHeight();
 			++i;
 		}
-		if (colide) {
-			System.out.println(x);
-//			x += Obstacle.getWidth() * move;
-			x -= moveFactor;	// Put Stubi back in his N box if collision
+		if (collide) {
+			x -= moveX;	// Put Stubi back in his N box if collision
 		}
-		return colide;
+		return collide;
 	}
 	
-	public int print(Graphics g, int lag) {
-	   	update(System.currentTimeMillis());
-	   	int xLag = x - lag;
-	   	g.drawImage(getSprite(),lag,y, null);
-	   	return xLag;
+	public void print(Graphics g, int lag) {
+		if (!dead) {
+			update(System.currentTimeMillis());
+		   	g.drawImage(getSprite(),lag,y, null);
+		}
 	}
 }

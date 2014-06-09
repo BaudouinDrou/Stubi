@@ -3,6 +3,8 @@ package game;
 public class MainCharacter extends Character {
 	private boolean crawl = false;
 	
+	public int lag = 150;
+	
 	// Constructors
 	public MainCharacter(String path, Level lvl){
 		super(path, 50, 100, null, lvl);
@@ -18,27 +20,27 @@ public class MainCharacter extends Character {
 	public void setMove(char c) {
 		switch (c){
 		case 'r':	// right
-			moveFactor = speed;
+			moveX = speed;
 			if (crawl)
-				moveFactor /= 2;
+				moveX /= 2;
 			play();
 			break;
 		case 'l':	// left
-			moveFactor = -speed;
+			moveX = -speed;
 			if (crawl)
-				moveFactor /= 2;
+				moveX /= 2;
 			play();
 			break;
 		case 's':	// stand
-			moveFactor = 0;
+			moveX = 0;
 			stop();
 			break;
 		case 'j':	// jump
-			if (jump == 0)	// jump only if the character is not previously jumping
+			if (!inAir)	// jump only if the character is not previously jumping
 				jump = 1;
 			break;
 		default:
-			moveFactor = 0;
+			moveX = 0;
 			stop();
 			break;
 		}
