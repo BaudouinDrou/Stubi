@@ -1,6 +1,10 @@
 package game;
 
 public class MainCharacter extends Character {
+	/**
+	 * This class contain all information about the main character.
+	 * It extends {@link Character} for more factorizations
+	 */
 	private boolean crawl = false;
 	
 	public int lag = 150;

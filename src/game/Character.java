@@ -26,6 +26,7 @@ public class Character {
 	protected int jump = -1; 	// -1 mean in the air
 	protected boolean inAir = true;
 	
+	protected int health = 12;
 	protected boolean dead = false;
 	
 	public Character(String path, int sWidth, int sHeight, int[]sequence, Level lvl){
@@ -122,7 +123,15 @@ public class Character {
 			// movement over y and x
 			upY();
 			upX();
-			collisionUpdate();
+			// Calculation Stubi position :
+			int i = y/Obstacle.getHeight(); // Stubi's head position in grid
+			int j = x/Obstacle.getWidth(); // Stubi's left side position in the grid
+			int k = x%Obstacle.getWidth(); // Stubi's x coord in the (i,j) block in the grid
+			int l  = y%Obstacle.getHeight(); // Stubi's y coord in the (i,j) block in the grid
+			// collision :
+			collisionUpdate(i,j,k,l);
+			// dmg
+			dmgUpdate(i,j,k,l);
 		}
 	}
 	
@@ -171,18 +180,18 @@ public class Character {
 	
 	/**
 	 * This function is applying collision with obstacles, resetting the character at his right place
+	 * @param i is the Y coordinate in the grid
+	 * @param j is the X coordinate in the grid
+	 * @param k is the X coordinate within the box
 	 */
-	public void collisionUpdate() {
+	public void collisionUpdate(int i, int j, int k, int l) {
 		Obstacle[][] obs = level.getObstacles();
-		int i = y/Obstacle.getHeight(); // Stubi's head position in grid
-		int j = x/Obstacle.getWidth(); // Stubi's left side position in the grid
-		int k = x%Obstacle.getWidth(); // Stubi's x coord int the (i,j) block in the grid
 		boolean collideBad = true;
 		if (i+(height/Obstacle.getHeight())+ 1>=obs.length) {	// Out of the drawing.
 			dead = true;
-			System.out.println("Outside the box");
+			System.out.println("Below the box");
 		} else {
-			collisionSide(obs,i,j,k);
+			collisionSide(obs,i,j,k,l);
 			collideBad &= collisionFeet(obs,j,k);
 			collideBad &= collisionHead(obs,i,j,k);
 			if (collideBad)
@@ -248,16 +257,15 @@ public class Character {
 	 * @param k is the X coordinate within the box
 	 * @return a boolean that say if there has been a collision on Stubi's side
 	 */
-	public boolean collisionSide(Obstacle[][] obs,int i, int j, int k) {
-		int l  = y%Obstacle.getHeight();
+	public boolean collisionSide(Obstacle[][] obs,int i, int j, int k, int l) {
 		// Left side 
-		boolean collide = collisionSideHelp(obs,i,j,l,1);
+		boolean collide = collisionSideHelp(obs,i,j,l);
 		while (k<width){	// move to right side
 			k += Obstacle.getWidth();
 			++j;
 		}
 		// Right side
-		collide |= collisionSideHelp(obs,i,j,l,-1);
+		collide |= collisionSideHelp(obs,i,j,l);
 		return collide;
 	}
 	
@@ -270,7 +278,7 @@ public class Character {
 	 * @param move is the movement to apply in case of collision (-1 = to right, +1 = to left)
 	 * @return a boolean that say if it has been colliding on the side
 	 */
-	public boolean collisionSideHelp(Obstacle[][] obs,int i, int j, int l,int move) {
+	public boolean collisionSideHelp(Obstacle[][] obs,int i, int j, int l) {
 		boolean collide = obs[Math.max(i,0)][j].CollisionBot(); // In case of jump above the roof top limit.
 		if ((y+height)/Obstacle.getHeight()<0)
 			return false;	// feet above the roof ^^
@@ -284,6 +292,36 @@ public class Character {
 			x -= moveX;	// Put Stubi back in his N box if collision
 		}
 		return collide;
+	}
+	
+	/**
+	 * This function apply the dmg to the character depending on the surrounding obstacles
+	 * @param i is the Y coordinate in the grid
+	 * @param j is the X coordinate in the grid
+	 * @param k is the X coordinate within the (i,j) box
+	 * @param l is the Y coordinate within the (i,j) box
+	 */
+	public void dmgUpdate(int i, int j, int k, int l) {
+		Obstacle[][] obs = level.getObstacles();
+		int dmg = 0;
+		if ((y+height)/Obstacle.getHeight()>=0){ // Could be out of the map
+			while (l<height){
+				int tmpK = k;
+				int tmpJ = j;
+				while(tmpK<width && i>=0){
+					dmg += obs[i][tmpJ].getDmg();
+//					if (obs[i][tmpJ].getDmg()!= 0)		// to print when dmg
+//						System.out.println("I:"+i+" J:"+j+" Dmg :"+dmg+" Health:"+health);
+					tmpK += Obstacle.getWidth();
+					++ tmpJ;
+				}
+				l += Obstacle.getHeight();
+				++i;
+			}
+		}
+		health -= dmg;
+		if (health < 0)
+			dead = true;
 	}
 	
 	public void print(Graphics g, int lag) {
