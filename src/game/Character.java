@@ -26,7 +26,7 @@ public class Character {
 	protected int jump = -1; 	// -1 mean in the air
 	protected boolean inAir = true;
 	
-	protected int health = 12;
+	protected int health = 100;
 	protected boolean dead = false;
 	
 	public Character(String path, int sWidth, int sHeight, int[]sequence, Level lvl){
