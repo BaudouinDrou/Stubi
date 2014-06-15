@@ -4,6 +4,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import main.MyPanel;
+
 
 public class Character {
 	/**
@@ -78,6 +80,14 @@ public class Character {
 	}
 	
 	// Getters Setters
+	
+	public int X(){
+		return x;
+	}
+	
+	public int Y() {
+		return y;
+	}
 	
 	public BufferedImage getSprite() {
 		if (moveX==0)

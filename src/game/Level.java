@@ -2,6 +2,8 @@ package game;
 
 import java.awt.Graphics;
 
+import main.Stubi;
+
 
 public class Level {
 	/**

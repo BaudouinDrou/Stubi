@@ -1,4 +1,6 @@
-package game;
+package main;
+import game.MainCharacter;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 

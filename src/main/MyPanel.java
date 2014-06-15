@@ -1,4 +1,8 @@
-package game;
+package main;
+import game.Level;
+import game.MainCharacter;
+import game.genObstacle;
+
 import java.awt.Graphics;
 import java.awt.Image;
 
@@ -13,7 +17,7 @@ public class MyPanel extends JPanel{
 	private volatile MainCharacter stubi;
 	private volatile Level level;
 	
-	static int gameTimeFrame = 50;
+	public static int gameTimeFrame = 50;
 	
 	Image dbImage;
     Graphics dbg;
@@ -62,13 +66,13 @@ public class MyPanel extends JPanel{
     public void paintComponent(Graphics g){
     	int lag = stubi.lag;
     	update(lag);
-	    level.print(g,stubi.x,lag);
+	    level.print(g,stubi.X(),lag);
 	    stubi.print(g,lag);
 	    repaint();
     }
     
     public void update(int lag) {
-    	int x = stubi.x;
+    	int x = stubi.X();
     	x = x / level.scale;
     	level.getBackground().setX(x);
     }

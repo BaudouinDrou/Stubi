@@ -7,6 +7,8 @@ import java.io.InputStreamReader;
 
 import javax.script.SimpleBindings;
 
+import main.Stubi;
+
 public class genObstacle {
 	/**
 	 * This class describe a generic Obstacle
