@@ -8,7 +8,7 @@ import javax.swing.JMenuBar;
 
 public class MyMenu extends JMenuBar{
 	/**
-	 * 
+	 * This class is a menu for the game.
 	 */
 	private static final long serialVersionUID = 1L;
 	

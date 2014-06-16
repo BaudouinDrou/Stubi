@@ -211,7 +211,7 @@ public class Character {
 	
 	
 	/**
-	 * This function is testing the collision with the below obstacles, helping {@link #collisionUpdate()}
+	 * This function is testing the collision with the below obstacles, helping {@link #collisionUpdate(int, int, int, int)}
 	 * @param obs is an array of array containing Obstacle
 	 * @param j correspond to the x coord of the first box in contact with Stubi
 	 * @param k is the position within the box #j
@@ -238,7 +238,7 @@ public class Character {
 	}
 	
 	/**
-	 * This method is used to know if there is a collision at the head of the character and if yes, put him back in place, helping {@link #collisionUpdate()}
+	 * This method is used to know if there is a collision at the head of the character and if yes, put him back in place, helping {@link #collisionUpdate(int, int, int, int)}
 	 * @param obs is the array containing obstacles
 	 * @param i is the y coord of Stubi's head in the grid
 	 * @param j is the x coord of Stubi's head
@@ -260,7 +260,7 @@ public class Character {
 	}
 	
 	/**
-	 * This method deals with the left and right collisions that could occur while playing, helping {@link #collisionUpdate()}
+	 * This method deals with the left and right collisions that could occur while playing, helping {@link #collisionUpdate(int, int, int, int)}
 	 * @param obs is the array containing all the obstacles we'll test
 	 * @param i is the Y coordinate in the grid
 	 * @param j is the X coordinate in the grid
@@ -280,12 +280,11 @@ public class Character {
 	}
 	
 	/**
-	 * This method is here to help the function {@link #collisionSide(Obstacle[][], int, int, int)} to factorize some work
+	 * This method is here to help the function {@link #collisionSide(Obstacle[][], int, int, int, int)} to factorize some work
 	 * @param obs is the array containing all the obstacles we'll test
 	 * @param i is the Y coordinate in the grid
 	 * @param j is the X coordinate in the grid
 	 * @param l is the Y coordinate within the grid
-	 * @param move is the movement to apply in case of collision (-1 = to right, +1 = to left)
 	 * @return a boolean that say if it has been colliding on the side
 	 */
 	public boolean collisionSideHelp(Obstacle[][] obs,int i, int j, int l) {
