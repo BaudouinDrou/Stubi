@@ -12,3 +12,7 @@ See the dev folder and its TODO.md file.
 # Enjoy !
 
 You could try our last working version in the Stubi.jar
+
+# Authors
+
+Romain Dth and Baudouin Dth
