@@ -4,6 +4,7 @@ Stubi
 # Description
 
 Wonderful game for fun ! B)
+It'a about an orphan, who wants vengeance for the wickedness of the king who cut his hands for thieving...
 
 # Work in progress
 
