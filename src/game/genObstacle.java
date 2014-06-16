@@ -148,7 +148,7 @@ public class genObstacle {
 		obsMapping = new SimpleBindings();	// creates an arrayList to contain the elements
 		InputStreamReader isReader= new InputStreamReader(Obstacle.class.getClassLoader().getResourceAsStream(pathAttr));
 		try (BufferedReader reader = new BufferedReader(isReader)) {
-		    String line = reader.readLine();	// read the first line
+		    String line = reader.readLine();	// read the first line (containing some description text in csv file)
 		    while ((line = reader.readLine()) != null) {	// Reading the file line by line
 				String[] split = line.split(";");
 				int ID = Integer.parseInt(split[1]);

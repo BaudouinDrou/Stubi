@@ -2,6 +2,9 @@ package main;
 
 import java.awt.Component;
 import java.awt.Graphics;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -14,11 +17,32 @@ public class MyMenu extends JMenuBar{
 	
 	//This is the JMenu that is shown
 	private JMenu menu;
+	private String pathAttr = "conf/menuList.csv";
 	
 	public MyMenu(String title) {
 	    super();
 	    menu = new JMenu(title);
 	    super.add(menu);
+	}
+	
+	public void setType(int n) {
+		InputStreamReader isReader= new InputStreamReader(MyMenu.class.getClassLoader().getResourceAsStream(pathAttr));
+		try (BufferedReader reader = new BufferedReader(isReader)) {
+		    String line = reader.readLine();	// read the first line containning the description of the column
+		    while ((line = reader.readLine()) != null) {	// Reading the file line by line
+				String[] split = line.split(";");
+				int ID = Integer.parseInt(split[0]);
+				if (n==ID){		// If we are on the line where the Menu is defined
+					int size = Integer.parseInt(split[1]);
+					int i = 0;
+					for (; i<size;++i){
+						menu.add(new MyMenuItem(Integer.parseInt(split[i+2])));	// And submenus ??
+					}
+				}
+		    }
+		} catch (IOException x) {
+		    System.err.format("IOException: %s%n", x);
+		}
 	}
 	
 	@Override
