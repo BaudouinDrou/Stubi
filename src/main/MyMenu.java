@@ -36,7 +36,7 @@ public class MyMenu extends JMenuBar{
 					int size = Integer.parseInt(split[1]);
 					int i = 0;
 					for (; i<size;++i){
-						menu.add(new MyMenuItem(Integer.parseInt(split[i+2])));	// And submenus ??
+						menu.add(new MyMenuItem(Integer.parseInt(split[i+2])));	// And submenus => Add second split "," ?
 					}
 				}
 		    }
