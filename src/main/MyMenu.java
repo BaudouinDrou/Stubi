@@ -18,6 +18,13 @@ public class MyMenu extends JMenuBar{
 	//This is the JMenu that is shown
 	private JMenu menu;
 	private String pathAttr = "conf/menuList.csv";
+	private int numConfColumn = 3;
+
+	public MyMenu() {
+	    super();
+	    menu = new JMenu();
+	    super.add(menu);
+	}
 	
 	public MyMenu(String title) {
 	    super();
@@ -36,7 +43,14 @@ public class MyMenu extends JMenuBar{
 					int size = Integer.parseInt(split[1]);
 					int i = 0;
 					for (; i<size;++i){
-						menu.add(new MyMenuItem(Integer.parseInt(split[i+2])));	// And submenus => Add second split "," ?
+						String[] split2 = split[i+numConfColumn].split(",");
+						if (split2.length>1) {
+							MyMenu submenu = new MyMenu(split2[1]);
+							submenu.setType(Integer.parseInt(split2[0]));
+							menu.add(submenu);	// submenu
+						} else {
+							menu.add(new MyMenuItem(Integer.parseInt(split[i+numConfColumn])));	// items
+						}
 					}
 				}
 		    }

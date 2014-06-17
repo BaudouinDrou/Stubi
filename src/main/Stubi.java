@@ -34,9 +34,6 @@ public class Stubi extends JFrame {
 	
 	    menu = new MyMenu("Menu");
 	    menu.setType(0);
-//	    menu.add(jmenu);
-//	    menu.add(new JMenuItem("Lvl #1"));
-//	    menu.add(new JMenuItem("Lvl #2"));
         menu.setPreferredSize(new Dimension(WINDX, menuHeight));
         menu.setBounds(margin,margin,WINDX-2*margin, menuHeight-2*margin);
 	    
