@@ -291,6 +291,7 @@ public class Character {
 		boolean collide = obs[Math.max(i,0)][j].CollisionBot(); // In case of jump above the roof top limit.
 		if ((y+height)/Obstacle.getHeight()<0)
 			return false;	// feet above the roof ^^
+		l += Obstacle.getHeight() / 2;	// Why ?
 		while (l<height){
 			if (i>=0)
 				collide |= obs[i][j].CollisionBot();
